@@ -47,10 +47,6 @@ FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instag
 st.title("🏢 Ranking de Fundos Imobiliários (FIIs)")
 st.markdown("Análise automatizada com dados do [Fundamentus](https://www.fundamentus.com.br/).")
 
-# --- Aviso sobre Locale (APÓS TÍTULO/MARKDOWN) ---
-if not LOCALE_CONFIGURED:
-    st.warning("Locale 'pt_BR' não encontrado no ambiente de execução. A formatação de moeda pode usar '.' como separador decimal.", icon="⚠️")
-# --- Fim Aviso Locale ---
 
 # --- Funções Auxiliares para Formatação ---
 # (Funções mantidas como antes)
