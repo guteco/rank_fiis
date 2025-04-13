@@ -24,7 +24,7 @@ MIN_LIQUIDEZ = 400000
 MIN_DY = 0.08
 MAX_DY = 0.135
 REQUEST_DELAY = 0.3
-SCRIPT_VERSION = "0.6a" # Versão com Segmento JSON
+SCRIPT_VERSION = "0.9a" # Versão com Segmento JSON
 
 # Configuração básica de logging e warnings
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
