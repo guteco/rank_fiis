@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* Estilos básicos da tabela */
+        .fii-table {
+            width: 100%; border-collapse: collapse; font-size: 0.9em;
+            margin-bottom: 1.5em; color: #ddd;
+        }
+        .fii-table thead th {
+            background-color: #333; color: white; padding: 10px 6px;
+            border: 1px solid #555; text-align: center; vertical-align: middle;
+            font-weight: bold;
+        }
+        .fii-table tbody td {
+            border: 1px solid #444; padding: 8px 6px;
+            text-align: center; /* <<<--- Centralizado por padrão */
+            vertical-align: middle;
+        }
+        /* Override: Alinhamento específico para o Papel (Primeira Coluna) */
+        .fii-table tbody td:first-child { /* Usando :first-child é mais genérico */
+            text-align: left !important; /* Força esquerda */
+            font-weight: bold;
+        }
+        .fii-table tbody td:first-child a {
+            color: #87CEFA; text-decoration: none;
+        }
+        .fii-table tbody td:first-child a:hover { text-decoration: underline; }
+
+        /* REMOVIDO - Regras que forçavam Segmento, Tipo, Ult. Relatório à esquerda */
+        /*
+            .fii-table tbody td.col-segmento,
+            .fii-table tbody td.col-tipo,
+            .fii-table tbody td.col-ult-relatorio {
+            text-align: left;
+        }
+        */
+
+        /* Link do relatório */
+        .fii-table tbody td.col-relatorio a { /* Mantém classe específica se usada no TD */
+            color: #90EE90; text-decoration: none;
+        }
+            .fii-table tbody td.col-relatorio a:hover { text-decoration: underline; }
+
+        /* Efeito Zebrado (Opcional) */
+            .fii-table tbody tr:nth-child(even) {
+                background-color: rgba(42, 42, 42, 0.5);
+            }
+    </style>
+</head>
+<body>
+    <table class="fii-table">
+        <thead>
+            <tr>
+                <!-- Cabeçalhos - Ajuste os nomes como desejar -->
+                <th>Papel</th>
+                <th>Segmento</th>
+                <th>Tipo</th>
+                <th>Cotação</th>
+                <th>DY</th>
+                <th>P/VP</th>
+                <th>Liquidez</th>
+                <th>FFO Yield</th>
+                <th>Valor Mercado</th>
+                <th>Qtd Imóveis</th>
+                <th>Vacância</th>
+                <th>Osc. Dia</th>
+                <th>Osc. Mês</th>
+                <th>Osc. 12M</th>
+                <th>Últ. Relatório</th>
+                <th>Relatório</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fii in fiis %} {# Loop sobre a lista de FIIs passada pelo Python #}
+            <tr>
+                <td class="col-papel">
+                    {% if fii.get('URL Detalhes') %} {# Checa se URL existe #}
+                        <a href="{{ fii['URL Detalhes'] }}" target="_blank">{{ fii.Papel }}</a>
+                    {% else %}
+                        {{ fii.Papel }}
+                    {% endif %}
+                </td>
+                <td class="col-segmento">{{ fii.Segmento }}</td>
+                <td class="col-tipo">{{ fii.Tipo }}</td>
+                <td>{{ fii.Cotação_fmt }}</td> {# Usa valor formatado #}
+                <td>{{ fii.DY_fmt }}</td>      {# Usa valor formatado #}
+                <td>{{ fii.PVP_fmt }}</td>     {# Usa valor formatado #}
+                <td>{{ fii.Liquidez_fmt }}</td> {# Usa valor formatado #}
+                <td>{{ fii.FFOYield_fmt }}</td>{# Usa valor formatado #}
+                <td>{{ fii.ValorMercado_fmt }}</td>{# Usa valor formatado #}
+                <td>{{ fii.QtdImoveis_fmt }}</td> {# Usa valor formatado #}
+                <td>{{ fii.Vacancia_fmt }}</td> {# Usa valor formatado #}
+                <td>{{ fii.OscDia_fmt }}</td>   {# Usa valor formatado #}
+                <td>{{ fii.OscMes_fmt }}</td>   {# Usa valor formatado #}
+                <td>{{ fii.Osc12M_fmt }}</td>   {# Usa valor formatado #}
+                <td class="col-ult-relatorio">{{ fii['Data Último Relatório'] }}</td>
+                <td class="col-relatorio">
+                    {% if fii.get('Link Download Relatório') %} {# Checa se link existe #}
+                        <a href="{{ fii['Link Download Relatório'] }}" target="_blank">Baixar</a>
+                    {% else %}
+                        N/D
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
