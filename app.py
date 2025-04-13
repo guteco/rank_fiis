@@ -6,39 +6,29 @@ import json
 import traceback
 import os
 import locale
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+import html
+import plotly.express as px
+import streamlit.components.v1 as components # Necessário para renderizar HTML
 
-# --- 1. MOVER st.set_page_config() PARA O TOPO ABSOLUTO ---
-# Deve ser o PRIMEIRO comando Streamlit logo após os imports
+# --- Configurar Locale e Jinja2 Environment ---
 st.set_page_config(page_title="Ranking de FIIs", layout="wide")
-
-# --- Configurar Locale (SEM NENHUM COMANDO st.* AQUI) ---
-LOCALE_CONFIGURED = False # Flag para saber se funcionou
-try:
-    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-    LOCALE_CONFIGURED = True
+LOCALE_CONFIGURED = False
+try: locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 except locale.Error:
-    try:
-        locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil')
-        LOCALE_CONFIGURED = True
-    except locale.Error:
-        # Falha silenciosa aqui, o aviso será mostrado depois se necessário
-        pass
-# --- Fim Locale Config ---
+    try: locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil')
+    except locale.Error: pass
+else: LOCALE_CONFIGURED = True
+jinja_env = Environment(loader=FileSystemLoader('.'), autoescape=select_autoescape(['html', 'xml']))
+# --- Fim Configurações Iniciais ---
 
 # --- Importar de rank_fiis ---
 try:
     from rank_fiis import ( fetch_summary_data, process_data, URL_FII_LIST, FII_TYPES_JSON_FILE, carregar_tipos_do_json, SCRIPT_VERSION, FII_SEGMENT_DATA )
     RANK_FIIS_IMPORTED = True; carregar_tipos_do_json(FII_TYPES_JSON_FILE)
-except ImportError as e:
-    # Agora podemos mostrar erros, pois set_page_config já foi executado
-    st.error(f"Erro CRÍTICO ao importar 'rank_fiis'. Verifique o deploy.");
-    st.error(f"Path: {os.getcwd()}, Erro: {e}")
-    st.stop() # Interrompe se a importação falhar
-# --- Fim Import ---
-
+except ImportError as e: st.error(f"Erro CRÍTICO ao importar 'rank_fiis'."); st.error(f"Path: {os.getcwd()}, Erro: {e}"); st.stop()
 
 # --- Constantes de Texto ---
-# (Mantidas como antes)
 DISCLAIMER_TEXT = """**AVISO IMPORTANTE:**\nEste script foi gerado somente para fins de estudo e análise pessoal.\nAs informações apresentadas **NÃO** constituem recomendação de compra ou venda de ativos financeiros.\nEsta é apenas uma ferramenta para auxiliar na sua própria análise e tomada de decisão.\n*Este script não pode ser vendido ou alterado sem autorização prévia dos autores.*\nQualquer dúvida ou sugestão, entre em contato."""
 FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instagram.com/guteco) e pela IA do Google.<br>Este trabalho foi carinhosamente pago com a promessa de excelentes pizzas! 🍕 - Versão App: {SCRIPT_VERSION} (rank_fiis)"""
 # --- Fim Constantes ---
@@ -47,23 +37,26 @@ FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instag
 st.title("🏢 Ranking de Fundos Imobiliários (FIIs)")
 st.markdown("Análise automatizada com dados do [Fundamentus](https://www.fundamentus.com.br/).")
 
+# --- Aviso sobre Locale ---
+if not LOCALE_CONFIGURED:
+    st.warning("Locale 'pt_BR' não encontrado. Formatação de moeda pode usar fallback.", icon="⚠️")
 
 # --- Funções Auxiliares para Formatação ---
-# (Funções mantidas como antes)
 def format_brl(value, decimals=0):
     if pd.isna(value): return "N/A"
     try:
-        # Tenta formatar usando locale se configurado
-        if LOCALE_CONFIGURED:
-            num_str_locale = f"{float(value):n}"
-            if 'e' not in num_str_locale.lower():
-                 if decimals == 0 and ',' in num_str_locale: return num_str_locale.split(',')[0]
-                 elif decimals > 0 and ',' not in num_str_locale: return num_str_locale + ',00'
-                 return num_str_locale
-        # Fallback para formatação manual
-        if decimals == 0: formatted_int = "{:,.0f}".format(float(value)).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_int
-        else: formatted_float = "{:,.{prec}f}".format(float(value), prec=decimals).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_float
-    except (ValueError, TypeError): return str(value)
+        if LOCALE_CONFIGURED: num_str_locale = f"{float(value):n}";
+        else: raise locale.Error
+        if 'e' not in num_str_locale.lower():
+             if decimals == 0 and ',' in num_str_locale: return num_str_locale.split(',')[0]
+             elif decimals > 0 and ',' not in num_str_locale: return num_str_locale + ',00'
+             return num_str_locale
+        raise locale.Error
+    except (ValueError, TypeError, locale.Error):
+         try:
+             if decimals == 0: formatted_int = "{:,.0f}".format(float(value)).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_int
+             else: formatted_float = "{:,.{prec}f}".format(float(value), prec=decimals).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_float
+         except: return str(value)
 def format_brl_cotacao(value): return format_brl(value, decimals=2)
 def format_percent(value):
     if pd.isna(value): return "N/A"
@@ -72,7 +65,6 @@ def format_percent(value):
 # --- Fim Funções Formatação ---
 
 # --- Sidebar com Filtros ---
-# (Código da sidebar mantido)
 with st.sidebar:
     st.header("🔍 Filtros");
     try: from rank_fiis import MIN_PVP as DEFAULT_MIN_PVP, MAX_PVP as DEFAULT_MAX_PVP, MIN_DY as DEFAULT_MIN_DY, MAX_DY as DEFAULT_MAX_DY, MIN_LIQUIDEZ as DEFAULT_MIN_LIQ
@@ -89,20 +81,17 @@ with st.sidebar:
 # --- Fim Sidebar ---
 
 # --- Lógica Principal e Exibição ---
-# (Restante do código mantido exatamente igual à versão anterior)
-df_original = pd.DataFrame()
+df_original_num = pd.DataFrame()
 show_help_footer_disclaimer = True
 
 if atualizar:
     with st.spinner("Buscando e processando dados... ⏳"):
-        prog_bar = st.progress(0, text="Iniciando...") # Barra de progresso
-        df = None; error_occurred = False; error_message = ""
+        prog_bar = st.progress(0, text="Iniciando..."); df = None; error_occurred = False; error_message = ""
         try:
             import rank_fiis; prog_bar.progress(5, text="Configurando filtros...")
             rank_fiis.MIN_PVP = min_pvp; rank_fiis.MAX_PVP = max_pvp; rank_fiis.MIN_DY = min_dy_percent / 100.0; rank_fiis.MAX_DY = max_dy_percent / 100.0; rank_fiis.MIN_LIQUIDEZ = min_liq
             prog_bar.progress(15, text="Buscando dados de resumo...")
-            df_raw = fetch_summary_data(URL_FII_LIST);
-            prog_bar.progress(30, text="Processando dados e detalhes...")
+            df_raw = fetch_summary_data(URL_FII_LIST); prog_bar.progress(30, text="Processando dados e detalhes...")
             df = process_data(df_raw); prog_bar.progress(90, text="Finalizando...")
         except Exception as e: error_occurred = True; error_message = f"Erro: {e}"; st.error(error_message, icon="❌"); st.code(traceback.format_exc())
         finally: prog_bar.progress(100, text="Concluído!"); prog_bar.empty()
@@ -110,7 +99,7 @@ if atualizar:
     if not error_occurred and df is not None:
         if not df.empty:
             st.success(f"{len(df)} FIIs encontrados após filtragem.", icon="✅")
-            df_original = df.copy(); df_display = df.copy()
+            df_original_num = df.copy(); df_display = df.copy()
             if 'Tipo' not in df_display.columns:
                 if rank_fiis.FII_SEGMENT_DATA: df_display['Tipo'] = df_display['Papel'].apply(lambda x: rank_fiis.FII_SEGMENT_DATA.get(str(x), {}).get('tipo', 'Indefinido'))
                 else: df_display['Tipo'] = 'Indefinido'
@@ -120,97 +109,132 @@ if atualizar:
             segmento_industrial = "Imóveis Industriais e Logísticos"; segmento_logistica = "Logística"; segmentos_a_unir = [segmento_industrial, segmento_logistica]
             if any(seg in df_display['Segmento'].unique() for seg in segmentos_a_unir):
                 replace_map = {seg: segmento_logistica for seg in segmentos_a_unir}; df_display['Segmento'] = df_display['Segmento'].replace(replace_map)
+                df_original_num['Segmento'] = df_original_num['Segmento'].replace(replace_map)
 
-            # Formatar Colunas como STRING
-            percent_cols = ['Dividend Yield', 'FFO Yield', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses']; currency_cols_int = ['Liquidez', 'Valor de Mercado']; currency_cols_dec = ['Cotação']
-            for col in percent_cols:
-                if col in df_display.columns: df_display[col] = df_display[col].apply(format_percent)
-            for col in currency_cols_int:
-                if col in df_display.columns: df_display[col] = df_display[col].apply(lambda x: "R$ " + format_brl(x, decimals=0))
-            for col in currency_cols_dec:
-                if col in df_display.columns: df_display[col] = df_display[col].apply(lambda x: "R$ " + format_brl_cotacao(x))
-            if 'P/VP' in df_display.columns: df_display['P/VP'] = df_display['P/VP'].apply(lambda x: f"{x:.2f}".replace('.', ',') if pd.notna(x) else "N/A")
-            if 'Qtd de imóveis' in df_display.columns: df_display['Qtd de imóveis'] = df_display['Qtd de imóveis'].apply(lambda x: format_brl(x, decimals=0) if pd.notna(x) else "N/A")
+            # PREPARAÇÃO DE DADOS PARA O TEMPLATE JINJA2
+            data_for_template = []
+            cols_for_render = ['Papel', 'URL Detalhes', 'Segmento', 'Tipo', 'Cotação', 'Dividend Yield', 'P/VP', 'Liquidez', 'FFO Yield', 'Valor de Mercado', 'Qtd de imóveis', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses', 'Data Último Relatório', 'Link Download Relatório']
+            cols_present = [col for col in cols_for_render if col in df_display.columns]
+            df_subset = df_display[cols_present]
+            for _, row in df_subset.iterrows():
+                fii_data = row.to_dict()
+                fii_data['Cotação_fmt'] = "R$ " + format_brl_cotacao(fii_data.get('Cotação'))
+                fii_data['DY_fmt'] = format_percent(fii_data.get('Dividend Yield'))
+                fii_data['PVP_fmt'] = f"{fii_data.get('P/VP'):.2f}".replace('.', ',') if pd.notna(fii_data.get('P/VP')) else "N/A"
+                fii_data['Liquidez_fmt'] = "R$ " + format_brl(fii_data.get('Liquidez'), decimals=0)
+                fii_data['FFOYield_fmt'] = format_percent(fii_data.get('FFO Yield'))
+                fii_data['ValorMercado_fmt'] = "R$ " + format_brl(fii_data.get('Valor de Mercado'), decimals=0)
+                fii_data['QtdImoveis_fmt'] = format_brl(fii_data.get('Qtd de imóveis'), decimals=0) if pd.notna(fii_data.get('Qtd de imóveis')) else "N/A"
+                fii_data['Vacancia_fmt'] = format_percent(fii_data.get('Vacância Média'))
+                fii_data['OscDia_fmt'] = format_percent(fii_data.get('Osc. Dia'))
+                fii_data['OscMes_fmt'] = format_percent(fii_data.get('Osc. Mês'))
+                fii_data['Osc12M_fmt'] = format_percent(fii_data.get('Osc. 12 Meses'))
+                fii_data['Segmento'] = fii_data.get('Segmento', 'N/A')
+                fii_data['Tipo'] = fii_data.get('Tipo', 'N/A')
+                fii_data['Data Último Relatório'] = fii_data.get('Data Último Relatório', 'N/A')
+                data_for_template.append(fii_data)
 
-            # Configuração das Colunas
-            column_config = { "Papel": st.column_config.TextColumn("Papel", help="Ticker do FII."), "URL Detalhes": st.column_config.LinkColumn("Link", help="Link Fundamentus.", display_text="🔗 Abrir"), "Link Download Relatório": st.column_config.LinkColumn("Relatório", help="Link último relatório.", display_text="📄 Baixar"), "Segmento": st.column_config.TextColumn("Segmento", help="Segmento principal."), "Tipo": st.column_config.TextColumn("Tipo", help="Classificação (Tijolo, Papel, etc.)."), "Cotação": st.column_config.TextColumn("Cotação", help="Último preço."), "Dividend Yield": st.column_config.TextColumn("DY", help="Dividend Yield 12 meses."), "P/VP": st.column_config.TextColumn("P/VP", help="Preço / Valor Patrimonial."), "Liquidez": st.column_config.TextColumn("Liquidez", help="Volume médio diário (R$)."), "FFO Yield": st.column_config.TextColumn("FFO Yield"), "Valor de Mercado": st.column_config.TextColumn("Valor Mercado"), "Qtd de imóveis": st.column_config.TextColumn("Qtd Imóveis"), "Vacância Média": st.column_config.TextColumn("Vacância"), "Osc. Dia": st.column_config.TextColumn("Osc. Dia"), "Osc. Mês": st.column_config.TextColumn("Osc. Mês"), "Osc. 12 Meses": st.column_config.TextColumn("Osc. 12M"), "Data Último Relatório": st.column_config.TextColumn("Últ. Relatório") }
-            column_config_filtered = {k: v for k, v in column_config.items() if k in df_display.columns}
-
-            # Reordenar Colunas
-            display_order = ['Papel', 'URL Detalhes', 'Segmento', 'Tipo', 'Cotação', 'Dividend Yield', 'P/VP', 'Liquidez', 'FFO Yield', 'Valor de Mercado', 'Qtd de imóveis', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses', 'Data Último Relatório', 'Link Download Relatório']
-            final_columns_ordered = [col for col in display_order if col in df_display.columns]
-            df_to_show = df_display[final_columns_ordered]
-
-            # Exibição da Tabela e Abas
-            segmentos_brutos = sorted(df_to_show['Segmento'].unique()); segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros']);
+            # Exibição da Tabela HTML com st.components.v1.html
+            segmentos_brutos = sorted(df_display['Segmento'].unique());
+            segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros']);
             if 'Outros' in segmentos_brutos: segmentos_ordenados.append('Outros')
-            if len(segmentos_ordenados) > 0:
-                 st.write("---"); st.subheader("Resultados por Segmento")
-                 tabs = st.tabs(["🏆 Todos"] + segmentos_ordenados)
-                 with tabs[0]: st.dataframe(df_to_show, column_config=column_config_filtered, use_container_width=True, hide_index=True, key="table_todos")
-                 for i, seg in enumerate(segmentos_ordenados):
-                     with tabs[i+1]:
-                         df_seg = df_to_show[df_to_show['Segmento'] == seg]; st.dataframe(df_seg, column_config=column_config_filtered, use_container_width=True, hide_index=True, key=f"table_seg_{seg.replace(' ','_')}")
-            else: st.write("---"); st.subheader("Resultados"); st.dataframe(df_to_show, column_config=column_config_filtered, use_container_width=True, hide_index=True, key="table_unica")
+            table_height = min(max(len(data_for_template) * 38 + 60, 250), 700) # Aumentei um pouco a altura por linha/min/max
 
-            # Download Excel
-            st.write("---"); output = io.BytesIO(); df_excel = df_original.drop(columns=['URL Detalhes'], errors='ignore')
+            if len(segmentos_ordenados) > 0:
+                st.write("---"); st.subheader("Resultados por Segmento")
+                tabs = st.tabs(["🏆 Todos"] + segmentos_ordenados)
+                try: template = jinja_env.get_template('fii_template.html')
+                except Exception as e_template: st.error(f"Erro ao carregar 'fii_template.html': {e_template}"); template = None
+                if template:
+                    with tabs[0]:
+                        html_table = template.render(fiis=data_for_template)
+                        components.html(html_table, height=table_height, scrolling=True) # Usa components.html
+                    for i, seg in enumerate(segmentos_ordenados):
+                        with tabs[i+1]:
+                            data_seg = [fii for fii in data_for_template if fii['Segmento'] == seg]
+                            html_table_seg = template.render(fiis=data_seg)
+                            seg_table_height = min(max(len(data_seg) * 38 + 60, 200), 700) # Altura dinâmica
+                            components.html(html_table_seg, height=seg_table_height, scrolling=True) # Usa components.html
+            else:
+                st.write("---"); st.subheader("Resultados")
+                try: template = jinja_env.get_template('fii_template.html')
+                except Exception as e_template: st.error(f"Erro ao carregar 'fii_template.html': {e_template}"); template = None
+                if template: html_table = template.render(fiis=data_for_template); components.html(html_table, height=table_height, scrolling=True) # Usa components.html
+
+            # --- SEÇÃO DE GRÁFICOS ---
+            st.write("---") # Linha divisória
+            st.subheader("📊 Visualizações Gráficas")
+
+            # Verificação inicial se há dados no DataFrame numérico
+            if df_original_num is not None and not df_original_num.empty:
+                col1, col2 = st.columns(2) # Criar colunas para layout
+
+                # --- Gráfico 1: Distribuição por Segmento (na col1) ---
+                with col1:
+                    st.markdown("##### Distribuição por Segmento")
+                    # Checa a existência da coluna 'Segmento'
+                    if 'Segmento' in df_original_num.columns:
+                        segment_counts = df_original_num['Segmento'].value_counts()
+                        # Checa se a contagem resultou em algo
+                        if not segment_counts.empty:
+                            st.bar_chart(segment_counts)
+                        else:
+                            # Segmento existe, mas não há FIIs ou a contagem falhou
+                            st.caption("Não há dados de segmento para exibir.")
+                    else:
+                        # Coluna 'Segmento' não foi encontrada no DataFrame
+                        st.caption("Coluna 'Segmento' ausente nos dados.") # Mensagem clara
+
+                # --- Gráfico 2: Scatter Plot DY vs P/VP (na col2) ---
+                with col2:
+                    st.markdown("##### DY (%) vs P/VP")
+                    # Define colunas necessárias
+                    required_cols_scatter = {'Dividend Yield', 'P/VP', 'Segmento', 'Papel'}
+                    # Checa se todas existem
+                    if required_cols_scatter.issubset(df_original_num.columns):
+                        # Prepara dados: remove NaN de P/VP e DY, cria DY_Percent
+                        df_scatter = df_original_num.dropna(subset=['P/VP', 'Dividend Yield']).copy()
+                        if not df_scatter.empty: # Verifica se sobrou algo após remover NaN
+                            df_scatter['DY_Percent'] = df_scatter['Dividend Yield'] * 100
+                            # Cria o gráfico Plotly
+                            fig = px.scatter(
+                                df_scatter,
+                                x='P/VP',
+                                y='DY_Percent',
+                                color='Segmento',
+                                hover_name='Papel',
+                                hover_data={'Segmento': True, 'DY_Percent': ':.2f%', 'P/VP': ':.2f'},
+                                labels={'DY_Percent': 'Dividend Yield (%)', 'P/VP': 'P/VP'}
+                            )
+                            fig.update_layout(yaxis_tickformat='.0f%', legend_title_text='Segmento', margin=dict(l=20, r=20, t=30, b=20))
+                            st.plotly_chart(fig, use_container_width=True) # Exibe o gráfico
+                        else:
+                            # Havia as colunas, mas após remover NaN, ficou vazio
+                            st.caption("Nenhum dado válido (DY/PVP não nulos) para exibir.")
+                    else:
+                        # Alguma coluna necessária para o gráfico não existe
+                        missing_cols = required_cols_scatter - set(df_original_num.columns)
+                        st.caption(f"Dados insuficientes. Colunas faltando: {', '.join(missing_cols)}")
+
+            else:
+                # Caso o df_original_num esteja vazio ou seja None
+                st.caption("Nenhum FII encontrado nos resultados para gerar gráficos.")
+            # --- FIM SEÇÃO DE GRÁFICOS ---
+            # Download Excel (Mantido)
+            st.write("---"); output = io.BytesIO(); df_excel = df_original_num.drop(columns=['URL Detalhes'], errors='ignore')
             try:
                 with pd.ExcelWriter(output, engine='openpyxl') as writer: df_excel.to_excel(writer, index=False, sheet_name='Ranking FIIs')
                 st.download_button(label="📥 Baixar Tabela (Excel)", data=output.getvalue(), file_name="ranking_fiis.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             except Exception as e: st.error(f"Erro ao gerar Excel: {e}", icon="❌")
+
         else: st.warning("Nenhum FII encontrado.", icon="🚫")
 else: st.info("⬅️ Configure filtros e clique '🔄 Atualizar Ranking'.", icon="💡"); show_help_footer_disclaimer = True
 
-# (Todo o código ANTES do expander permanece igual)
-
 # --- Seção de Ajuda Expansível, Disclaimer e Footer ---
+# (Mantida como na versão anterior)
 if show_help_footer_disclaimer:
-    st.divider() # Linha divisória
-
-    # --- Seção de Ajuda ---
+    st.divider();
     with st.expander("ℹ️ Sobre este App / Ajuda"):
-        st.markdown("""
-            **Fonte dos Dados:**
-            *   Os dados são coletados automaticamente do site [Fundamentus](https://www.fundamentus.com.br/) através de web scraping.
-            *   A coleta de detalhes individuais (link do relatório, oscilações) pode levar algum tempo.
-            *   Os dados podem não ser em tempo real e estão sujeitos à disponibilidade e formato do site Fundamentus.
-
-            **Entendendo a Lógica de Classificação (Ranking Original):**
-            *   O objetivo inicial do ranking (cujos valores finais foram ocultos da tabela principal para simplificar a visualização) era servir como um **ponto de partida quantitativo** na busca por FIIs com um potencial **bom custo/benefício**.
-            *   Para isso, ele combinava dois indicadores importantes:
-                *   **P/VP (Preço / Valor Patrimonial):** Indica quanto o mercado está pagando por cada real de patrimônio do fundo. Um P/VP **abaixo de 1** *sugere* que o fundo pode estar sendo negociado com um desconto em relação ao valor contábil de seus ativos ("custo" potencialmente menor). Fundos com P/VP mais baixo recebiam uma melhor classificação neste critério.
-                *   **DY (Dividend Yield):** Mostra o retorno percentual distribuído aos cotistas nos últimos 12 meses, com base na cotação atual. Um DY **mais alto** indica um maior retorno recente em forma de dividendos ("benefício" recente maior). Fundos com DY mais alto recebiam uma melhor classificação neste critério.
-            *   O 'Rank Final' original (oculto) era a soma das posições individuais nesses dois rankings (P/VP e DY). Um valor menor nesse Rank Final indicava, **teoricamente**, uma combinação mais favorável desses dois fatores naquele momento.
-            *   ⚠️ **Análise Fundamental é Indispensável:** É crucial entender que este ranking numérico é apenas um **filtro inicial e simplificado**. Ele não considera a qualidade dos imóveis/créditos, a competência da gestão, a saúde financeira do fundo, a sustentabilidade dos rendimentos ou os riscos específicos de cada ativo. Por isso, a **leitura atenta dos relatórios gerenciais e a análise individualizada de cada FII são etapas indispensáveis** antes de tomar qualquer decisão de investimento. Use esta ferramenta para gerar ideias, mas aprofunde sua pesquisa!
-
-            **Principais Indicadores (Tooltips nos cabeçalhos para mais detalhes):**
-            *   **DY (Dividend Yield):** Rendimento distribuído nos últimos 12 meses em relação à cotação.
-            *   **P/VP (Preço / Valor Patrimonial):** Compara o preço de mercado da cota com seu valor patrimonial. Valores abaixo de 1 podem indicar desconto.
-            *   **Liquidez:** Volume médio negociado por dia. Valores mais altos indicam maior facilidade de comprar/vender cotas.
-            *   **Vacância:** Percentual de área não alugada (física) ou potencial de renda não realizado (financeira). Menor é geralmente melhor.
-
-            **Classificação por Segmento/Tipo:**
-            *   A classificação por 'Segmento' e 'Tipo' foi feita com base em dados externos (arquivo `fii_types.json`) para complementar a informação do Fundamentus.
-            *   Como essa classificação é em parte manual e sujeita a interpretações ou mudanças no mercado, alguns FIIs podem ter ficado com a classificação incorreta ou desatualizada.
-            *   Caso identifique alguma classificação que acredite estar errada, por favor, entre em contato pelo e-mail: `contato@nerdpobre.com` informando o FII e a sugestão de classificação correta para análise e possível correção.
-
-            **Como Usar:**
-            1.  Ajuste os filtros na barra lateral esquerda (P/VP, DY, Liquidez).
-            2.  Clique no botão "Atualizar Ranking".
-            3.  Aguarde enquanto os dados são buscados e processados.
-            4.  Navegue pelos resultados na aba "Todos" ou nas abas por segmento.
-            5.  Use os links na tabela para acessar detalhes no Fundamentus ou baixar relatórios.
-            6.  Clique em "Baixar Tabela (Excel)" para obter os dados (incluindo ranks ocultos) para análise offline.
-
-            **Limitações:**
-            *   Esta é uma ferramenta de estudo e **não** uma recomendação financeira.
-            *   A qualidade dos dados depende da fonte (Fundamentus).
-            *   O web scraping pode falhar se o site de origem mudar sua estrutura.
-        """)
-    # --- Fim da Seção de Ajuda ---
-
-    st.warning(DISCLAIMER_TEXT, icon="⚠️") # Disclaimer como warning
-    st.caption(FOOTER_TEXT, unsafe_allow_html=True) # Footer
-
-# (Restante do código, se houver, permanece igual)
+        st.markdown("""**Fonte dos Dados:**\n*   Dados coletados do [Fundamentus](https://www.fundamentus.com.br/).\n*   Coleta pode levar tempo. Sujeito à disponibilidade/formato do site.\n\n**Lógica do Ranking (Filtragem Inicial):**\n*   Busca FIIs com bom **custo/benefício** inicial (P/VP baixo, DY alto).\n*   ⚠️ **Importante:** Filtro **inicial e numérico**. **Leia os relatórios gerenciais** para entender qualidade, gestão e riscos antes de investir.\n\n**Principais Indicadores:**\n*   **DY:** Rendimento 12 meses.\n*   **P/VP:** Preço / Valor Patrimonial.\n*   **Liquidez:** Volume médio diário.\n*   **Vacância:** Área não alugada / renda não realizada.\n\n**Classificação por Segmento/Tipo:**\n*   Usa dados externos (`fii_types.json`).\n*   Pode conter erros. Informe: `contato@nerdpobre.com`\n\n**Como Usar:**\n1.  Ajuste filtros.\n2.  Clique "Atualizar Ranking".\n3.  Navegue e use links.\n4.  Baixe Excel (com ranks ocultos).\n\n**Limitações:**\n*   Estudo, **não** recomendação.\n*   Depende da fonte.\n*   Scraping pode falhar.
+        """, unsafe_allow_html=True)
+    st.warning(DISCLAIMER_TEXT, icon="⚠️"); st.caption(FOOTER_TEXT, unsafe_allow_html=True)

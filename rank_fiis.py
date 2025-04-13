@@ -10,6 +10,7 @@ import html
 from bs4 import BeautifulSoup
 import json # Para ler JSON
 import os   # Para verificar path do JSON
+import streamlit as st
 
 # --- Configurações ---
 URL_FII_LIST = "https://www.fundamentus.com.br/fii_resultado.php"
@@ -23,7 +24,7 @@ MIN_LIQUIDEZ = 400000
 MIN_DY = 0.08
 MAX_DY = 0.135
 REQUEST_DELAY = 0.3
-SCRIPT_VERSION = "0.8a" # Versão com Segmento JSON
+SCRIPT_VERSION = "0.6a" # Versão com Segmento JSON
 
 # Configuração básica de logging e warnings
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -78,6 +79,23 @@ def get_headers():
     return { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
 
 # --- Funções Principais ---
+
+@st.cache_data(ttl=3600) # Cacheia por 1 hora (3600 segundos)
+def fetch_summary_data(url):
+    logging.info(f"Buscando dados de resumo (CACHE MISS ou TTL expirado): {url}") # Log só roda se não usar cache
+    try:
+        response = requests.get(url, headers=get_headers(), timeout=45, verify=True)
+        response.raise_for_status(); response.encoding = response.apparent_encoding
+        # Use io.StringIO para garantir que read_html funcione bem com cache
+        tables = pd.read_html(io.StringIO(response.text), decimal=',', thousands='.')
+        if tables:
+            df = tables[0]; df.columns = df.columns.str.strip()
+            logging.info(f"Tabela de resumo encontrada com {len(df)} FIIs.")
+            return df # Retorna o dataframe para ser cacheado
+        logging.error("Nenhuma tabela encontrada na página de resumo."); return None
+    except requests.exceptions.Timeout: logging.error(f"Timeout (Resumo): {url}"); return None
+    except requests.exceptions.RequestException as e: logging.error(f"Erro Requisição (Resumo): {e}"); return None
+    except Exception as e: logging.error(f"Erro inesperado fetch/parse (Resumo): {e}"); return None
 
 def fetch_summary_data(url):
     logging.info(f"Buscando dados de resumo: {url}")
