@@ -7,36 +7,52 @@ import traceback
 import os
 import locale
 
-# --- Configurar Locale ---
-try: locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+# --- 1. MOVER st.set_page_config() PARA O TOPO ---
+# Deve ser o PRIMEIRO comando Streamlit
+st.set_page_config(page_title="Ranking de FIIs", layout="wide")
+
+# --- Configurar Locale (SEM st.warning/st.error aqui) ---
+try:
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    # print("Locale pt_BR.UTF-8 configurado com sucesso.") # Log opcional para terminal
 except locale.Error:
-    try: locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil')
-    except locale.Error: st.warning("Locale 'pt_BR' não encontrado.", icon="⚠️")
-# --- Fim Locale ---
+    try:
+        locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil')
+        # print("Locale Portuguese_Brazil configurado com sucesso.") # Log opcional
+    except locale.Error:
+        # Falha silenciosa, a formatação fallback será usada
+        # print("WARN: Locale pt_BR não encontrado. Usando formatação manual.")
+        pass
+# --- Fim Locale Config ---
 
 # --- Importar de rank_fiis ---
 try:
     from rank_fiis import ( fetch_summary_data, process_data, URL_FII_LIST, FII_TYPES_JSON_FILE, carregar_tipos_do_json, SCRIPT_VERSION, FII_SEGMENT_DATA )
     RANK_FIIS_IMPORTED = True; carregar_tipos_do_json(FII_TYPES_JSON_FILE)
-except ImportError as e: st.error(f"Erro CRÍTICO ao importar 'rank_fiis'."); st.error(f"Path: {os.getcwd()}, Erro: {e}"); st.stop()
+except ImportError as e:
+    # Erros de importação devem usar st.error aqui, pois set_page_config já ocorreu
+    st.error(f"Erro CRÍTICO ao importar 'rank_fiis'. Verifique o deploy.");
+    st.error(f"Path: {os.getcwd()}, Erro: {e}")
+    st.stop() # Interrompe se a importação falhar
 
 # --- Constantes de Texto ---
 DISCLAIMER_TEXT = """**AVISO IMPORTANTE:**\nEste script foi gerado somente para fins de estudo e análise pessoal.\nAs informações apresentadas **NÃO** constituem recomendação de compra ou venda de ativos financeiros.\nEsta é apenas uma ferramenta para auxiliar na sua própria análise e tomada de decisão.\n*Este script não pode ser vendido ou alterado sem autorização prévia dos autores.*\nQualquer dúvida ou sugestão, entre em contato."""
 FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instagram.com/guteco) e pela IA do Google.<br>Este trabalho foi carinhosamente pago com a promessa de excelentes pizzas! 🍕 - Versão App: {SCRIPT_VERSION} (rank_fiis)"""
 # --- Fim Constantes ---
 
-st.set_page_config(page_title="Ranking de FIIs", layout="wide")
+# --- Título e Subtítulo (Agora depois do set_page_config) ---
 st.title("🏢 Ranking de Fundos Imobiliários (FIIs)")
 st.markdown("Análise automatizada com dados do [Fundamentus](https://www.fundamentus.com.br/).")
 
 # --- Funções Auxiliares para Formatação ---
+# (Funções mantidas como antes)
 def format_brl(value, decimals=0):
     if pd.isna(value): return "N/A"
     try:
         num_str_locale = f"{float(value):n}"
         if 'e' not in num_str_locale.lower():
              if decimals == 0 and ',' in num_str_locale: return num_str_locale.split(',')[0]
-             elif decimals > 0 and ',' not in num_str_locale: return num_str_locale + ',00'
+             elif decimals > 0 and ',' not in num_str_locale: return num_str_locale + ',00' # Ajuste se precisar
              return num_str_locale
         if decimals == 0: formatted_int = "{:,.0f}".format(float(value)).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_int
         else: formatted_float = "{:,.{prec}f}".format(float(value), prec=decimals).replace(',', '#').replace('.', ',').replace('#', '.'); return formatted_float
@@ -49,10 +65,11 @@ def format_percent(value):
 # --- Fim Funções Formatação ---
 
 # --- Sidebar com Filtros ---
+# (Código da sidebar mantido)
 with st.sidebar:
     st.header("🔍 Filtros");
     try: from rank_fiis import MIN_PVP as DEFAULT_MIN_PVP, MAX_PVP as DEFAULT_MAX_PVP, MIN_DY as DEFAULT_MIN_DY, MAX_DY as DEFAULT_MAX_DY, MIN_LIQUIDEZ as DEFAULT_MIN_LIQ
-    except ImportError: DEFAULT_MIN_PVP=0.7; DEFAULT_MAX_PVP=1.05; DEFAULT_MIN_DY=0.08; DEFAULT_MAX_DY=0.135; DEFAULT_MIN_LIQ=400000; st.warning("Constantes de filtro padrão não encontradas.", icon="⚠️")
+    except ImportError: DEFAULT_MIN_PVP=0.7; DEFAULT_MAX_PVP=1.05; DEFAULT_MIN_DY=0.08; DEFAULT_MAX_DY=0.135; DEFAULT_MIN_LIQ=400000; st.warning("Constantes de filtro padrão não encontradas.", icon="⚠️") # st.warning aqui é ok
     DEFAULT_MIN_DY_PERCENT = DEFAULT_MIN_DY * 100; DEFAULT_MAX_DY_PERCENT = DEFAULT_MAX_DY * 100
     min_pvp = st.slider("P/VP mínimo", 0.0, 2.5, DEFAULT_MIN_PVP, 0.01, key="min_pvp")
     max_pvp = st.slider("P/VP máximo", 0.0, 2.5, DEFAULT_MAX_PVP, 0.01, key="max_pvp")
@@ -65,6 +82,7 @@ with st.sidebar:
 # --- Fim Sidebar ---
 
 # --- Lógica Principal e Exibição ---
+# (Restante do código mantido exatamente igual à versão anterior)
 df_original = pd.DataFrame()
 show_footer_and_disclaimer = True
 
@@ -79,29 +97,19 @@ if atualizar:
     if not error_occurred and df is not None:
         if not df.empty:
             st.success(f"{len(df)} FIIs encontrados após filtragem.", icon="✅")
-            df_original = df.copy() # Guarda original para Excel
-            df_display = df.copy() # Trabalha com cópia para exibição
-
-            # Adicionar Tipo e Segmento (se necessário)
+            df_original = df.copy(); df_display = df.copy()
             if 'Tipo' not in df_display.columns:
                 if rank_fiis.FII_SEGMENT_DATA: df_display['Tipo'] = df_display['Papel'].apply(lambda x: rank_fiis.FII_SEGMENT_DATA.get(str(x), {}).get('tipo', 'Indefinido'))
-                else: st.warning("Dados JSON não disponíveis para 'Tipo'.", icon="⚠️"); df_display['Tipo'] = 'Indefinido'
+                else: df_display['Tipo'] = 'Indefinido' # Não usar st.warning aqui
             if 'Segmento' not in df_display.columns: df_display['Segmento'] = "N/A"
 
-            # --- AGREGAÇÃO DE SEGMENTOS PARA EXIBIÇÃO ---
-            segmento_industrial = "Imóveis Industriais e Logísticos"
-            segmento_logistica = "Logística" # Nome final desejado
-            segmentos_a_unir = [segmento_industrial, segmento_logistica] # Lista dos segmentos a serem mapeados
-
-            # Verifica se algum dos segmentos a unir existe antes de tentar a substituição
+            # AGREGAÇÃO DE SEGMENTOS
+            segmento_industrial = "Imóveis Industriais e Logísticos"; segmento_logistica = "Logística"; segmentos_a_unir = [segmento_industrial, segmento_logistica]
             if any(seg in df_display['Segmento'].unique() for seg in segmentos_a_unir):
-                st.info(f"Agregando segmentos relacionados em '{segmento_logistica}'.", icon="🔄")
-                # Cria um mapeamento para a função replace
                 replace_map = {seg: segmento_logistica for seg in segmentos_a_unir}
                 df_display['Segmento'] = df_display['Segmento'].replace(replace_map)
-            # --- Fim da Agregação ---
 
-            # Formatar Colunas como STRING (usando a nova format_brl)
+            # Formatar Colunas como STRING
             percent_cols = ['Dividend Yield', 'FFO Yield', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses']; currency_cols_int = ['Liquidez', 'Valor de Mercado']; currency_cols_dec = ['Cotação']
             for col in percent_cols:
                 if col in df_display.columns: df_display[col] = df_display[col].apply(format_percent)
@@ -112,33 +120,28 @@ if atualizar:
             if 'P/VP' in df_display.columns: df_display['P/VP'] = df_display['P/VP'].apply(lambda x: f"{x:.2f}".replace('.', ',') if pd.notna(x) else "N/A")
             if 'Qtd de imóveis' in df_display.columns: df_display['Qtd de imóveis'] = df_display['Qtd de imóveis'].apply(lambda x: format_brl(x, decimals=0) if pd.notna(x) else "N/A")
 
-            # Configuração das Colunas (Mantida)
+            # Configuração das Colunas
             column_config = { "Papel": st.column_config.TextColumn("Papel"), "URL Detalhes": st.column_config.LinkColumn("Link", display_text="🔗 Abrir"), "Link Download Relatório": st.column_config.LinkColumn("Relatório", display_text="📄 Baixar"), "Cotação": st.column_config.TextColumn("Cotação"), "Liquidez": st.column_config.TextColumn("Liquidez"), "Valor de Mercado": st.column_config.TextColumn("Valor Mercado"), "Dividend Yield": st.column_config.TextColumn("DY"), "FFO Yield": st.column_config.TextColumn("FFO Yield"), "Vacância Média": st.column_config.TextColumn("Vacância"), "Osc. Dia": st.column_config.TextColumn("Osc. Dia"), "Osc. Mês": st.column_config.TextColumn("Osc. Mês"), "Osc. 12 Meses": st.column_config.TextColumn("Osc. 12M"), "P/VP": st.column_config.TextColumn("P/VP"), "Qtd de imóveis": st.column_config.TextColumn("Qtd Imóveis"), "Data Último Relatório": st.column_config.TextColumn("Últ. Relatório") }
             column_config_filtered = {k: v for k, v in column_config.items() if k in df_display.columns}
 
-            # Reordenar Colunas (Removendo Ranks)
+            # Reordenar Colunas
             display_order = ['Papel', 'URL Detalhes', 'Segmento', 'Tipo', 'Cotação', 'Dividend Yield', 'P/VP', 'Liquidez', 'FFO Yield', 'Valor de Mercado', 'Qtd de imóveis', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses', 'Data Último Relatório', 'Link Download Relatório']
             final_columns_ordered = [col for col in display_order if col in df_display.columns]
             df_to_show = df_display[final_columns_ordered]
 
-            # Exibição da Tabela e Abas (AGORA USA O SEGMENTO UNIFICADO)
-            # A lógica de ordenação das abas já trata o nome "Logística" corretamente
-            segmentos_brutos = sorted(df_to_show['Segmento'].unique());
-            segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros']);
+            # Exibição da Tabela e Abas
+            segmentos_brutos = sorted(df_to_show['Segmento'].unique()); segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros']);
             if 'Outros' in segmentos_brutos: segmentos_ordenados.append('Outros')
-
             if len(segmentos_ordenados) > 0:
                  st.write("---"); st.subheader("Resultados por Segmento")
-                 tabs = st.tabs(["🏆 Todos"] + segmentos_ordenados) # Usa segmentos já unificados
+                 tabs = st.tabs(["🏆 Todos"] + segmentos_ordenados)
                  with tabs[0]: st.dataframe(df_to_show, column_config=column_config_filtered, use_container_width=True, hide_index=True, key="table_todos")
-                 for i, seg in enumerate(segmentos_ordenados): # Itera sobre os nomes de segmento (já unificados)
+                 for i, seg in enumerate(segmentos_ordenados):
                      with tabs[i+1]:
-                         # Filtra pelo nome do segmento (que agora pode ser "Logística" unificado)
-                         df_seg = df_to_show[df_to_show['Segmento'] == seg];
-                         st.dataframe(df_seg, column_config=column_config_filtered, use_container_width=True, hide_index=True, key=f"table_seg_{seg.replace(' ','_')}")
+                         df_seg = df_to_show[df_to_show['Segmento'] == seg]; st.dataframe(df_seg, column_config=column_config_filtered, use_container_width=True, hide_index=True, key=f"table_seg_{seg.replace(' ','_')}")
             else: st.write("---"); st.subheader("Resultados"); st.dataframe(df_to_show, column_config=column_config_filtered, use_container_width=True, hide_index=True, key="table_unica")
 
-            # Download Excel (Usa df_original com segmentos separados)
+            # Download Excel
             st.write("---"); output = io.BytesIO(); df_excel = df_original.drop(columns=['URL Detalhes'], errors='ignore')
             try:
                 with pd.ExcelWriter(output, engine='openpyxl') as writer: df_excel.to_excel(writer, index=False, sheet_name='Ranking FIIs')
