@@ -37,10 +37,6 @@ FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instag
 st.title("🏢 Ranking de Fundos Imobiliários (FIIs)")
 st.markdown("Análise automatizada com dados do [Fundamentus](https://www.fundamentus.com.br/).")
 
-# --- Aviso sobre Locale ---
-if not LOCALE_CONFIGURED:
-    st.warning("Locale 'pt_BR' não encontrado. Formatação de moeda pode usar fallback.", icon="⚠️")
-
 # --- Funções Auxiliares para Formatação ---
 def format_brl(value, decimals=0):
     if pd.isna(value): return "N/A"
