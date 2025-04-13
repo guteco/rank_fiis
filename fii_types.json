@@ -1,0 +1,2030 @@
+{
+    "AAZQ11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "ABCP11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "AEFI11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "AFCR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "AFHI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "AFOF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "AGCX11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "AGRX11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "AIEC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "AJFI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ALMI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "ALZC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ALZM11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "ALZR11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "ALZT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ANCR11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "APTO11": {
+        "segmento_original": "Imóveis Residenciais",
+        "tipo": "Tijolo"
+    },
+    "APXM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "ARCT11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "AROA11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "ARRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ARXD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ASMT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "ASRF11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "ATSA11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "AURB11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "AZPL11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "BARI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BBFI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BBFO11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BBGO11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "BBIG11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "BBPO11": {
+        "segmento_original": "Agências de Bancos",
+        "tipo": "Tijolo"
+    },
+    "BBRC11": {
+        "segmento_original": "Agências de Bancos",
+        "tipo": "Tijolo"
+    },
+    "BBVJ11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BCFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BCIA11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BCRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BGRB11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BICE11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BICR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BIME11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "BIPD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BLCA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BLCP11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BLMC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BLMG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BLMO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BLMR11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BLOG11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BLUR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BMLC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BNFS11": {
+        "segmento_original": "Agências de Bancos",
+        "tipo": "Tijolo"
+    },
+    "BPFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "BPML11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "BPRP11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BRCO11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BRCR11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BREV11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BRIM11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "BRIP11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "BRLA11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BROF11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "BTAL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BTCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BTCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "BTHF11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "BTHI11": {
+        "segmento_original": "Hotel",
+        "tipo": "Tijolo"
+    },
+    "BTLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BTML11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "BTRA11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "BTSG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "BTSI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "BTWR11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "BTYU11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "BVAR11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "CACR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CARE11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "CBOP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CCME11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "CCRF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CCVA11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "CEOC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CFHI11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "CFII11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "CJCT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CLIN11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CNES11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "COPP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CORM11": {
+        "segmento_original": "Indefinido",
+        "tipo": "Indefinido"
+    },
+    "CPFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "CPLG11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "CPOF11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "CPSH11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "CPTR11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "CPTS11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CPUR11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "CRAA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CRFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "CTXT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CVBI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CXAG11": {
+        "segmento_original": "Agências de Bancos",
+        "tipo": "Tijolo"
+    },
+    "CXCE11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CXCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "CXCO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "CXRI11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "CXTL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "DAMA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "DAMT11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "DCRA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "DEVA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "DMAC11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "DOMC11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "DOVL11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "DPRO11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "DRIT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "DVFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "EDFO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "EDGA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "EGAF11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "EQIN11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "EQIR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ERCR11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "ERPA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "EURO11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "EVBI11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "EXES11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FAED11": {
+        "segmento_original": "Educacional",
+        "tipo": "Tijolo"
+    },
+    "FAMB11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FATN11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FCFL11": {
+        "segmento_original": "Educacional",
+        "tipo": "Tijolo"
+    },
+    "FEXC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FFCI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FGAA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "FIGS11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "FIIB11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "FIIP11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "FISC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FISD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FIXX11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FLCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FLFL11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "FLMA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FLRP11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "FMOF11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FPAB11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FPNG11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FRBR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FTCA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "FTCE11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "FVBI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "FVPQ11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "FZDA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "FZDB11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "GALG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "GAME11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "GARE11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "GCFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "GCOI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "GCRA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "GCRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "GGRC11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "GLOG11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "GLPF11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "GRLV11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "GRUL11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "GRWA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "GSFI11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "GTLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "GTWR11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "GURB11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "GWIR11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "GZIT11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "HAAA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HABT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HBCR11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "HBRH11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HBTT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HCHG11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HCRI11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "HCTR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HDEL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "HFOF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "HGAG11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "HGBL11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "HGBS11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "HGCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HGFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "HGIC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HGJH11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HGLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "HGPO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HGRE11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HGRU11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "HILG11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "HLOG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "HMOC11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "HOFC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "HOSI11": {
+        "segmento_original": "Imóveis Residenciais",
+        "tipo": "Tijolo"
+    },
+    "HPDP11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "HRDF11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "HREC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HRES11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "HSAF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "HSLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "HSML11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "HSRE11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "HTMX11": {
+        "segmento_original": "Hotéis",
+        "tipo": "Tijolo"
+    },
+    "HUCG11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "HUSC11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "HUSI11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "IAAG11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IAGR11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "IBBP11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "IBCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IBFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "ICRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IDFI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IDGR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "IFID11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IFIE11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "INLG11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "INRD11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "IRDM11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "IRIM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "ISCJ11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ITIP11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ITIT11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "ITRI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "JASC11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "JBFO11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JCCJ11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JCIN11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JFLL11": {
+        "segmento_original": "Imóveis Residenciais",
+        "tipo": "Tijolo"
+    },
+    "JGPX11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "JPPA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JPPC11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "JRDM11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "JSAF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JSCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "JSRE11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "KCRE11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KDOL11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KEVE11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "KFEN11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "KFOF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "KINP11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "KISU11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "KIVO11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KNCA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "KNCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KNHF11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "KNHY11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KNIP11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KNRE11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "KNRI11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "KNSC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KNUQ11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KOPA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "KORE11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "LAFI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "LASC11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "LFTT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "LGCP11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "LIFE11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "LLAO11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "LPLP11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "LSAG11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "LSPA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "LTMT11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "LUGG11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "LVBI11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "MALL11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "MANA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MATV11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MAXR11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "MBRF11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "MCCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MCEM11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MCHF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "MCHY11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MCLO11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "MCRE11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MFAI11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "MFCR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "MFII11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "MGCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MGFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "MGHT11": {
+        "segmento_original": "Hotéis",
+        "tipo": "Tijolo"
+    },
+    "MGIM11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "MGLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "MINT11": {
+        "segmento_original": "Educacional",
+        "tipo": "Tijolo"
+    },
+    "MMPD11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "MORC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "MORE11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "MXRF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "NAUI11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "NAVT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "NCHB11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "NCRA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "NCRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "NEWL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "NEWU11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "NEXG11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "NPAR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "NSLU11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "NVHO11": {
+        "segmento_original": "Hospitalar",
+        "tipo": "Tijolo"
+    },
+    "OBAL11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "OCRE11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "OGHY11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "OIAG11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "ONEF11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "ORPD11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "OUCY11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "OUFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "OUJP11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "OULG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "OURE11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "PATA11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "PATC11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "PATL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "PEMA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PLAG11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "PLCA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "PLCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PLOG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "PLRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PMFO11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PMIS11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PNCR11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "PNDL11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "PNPR11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "PNRC11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "PORD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PQAG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "PQDP11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "PRSN11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "PRSV11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "PULV11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "PURB11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "PVBI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "QAGR11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "QAMI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "QIFF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "QIRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "QMFF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBBV11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBCO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RBDS11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBED11": {
+        "segmento_original": "Educacional",
+        "tipo": "Tijolo"
+    },
+    "RBFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "RBGS11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "RBHG11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBHY11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBIR11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBIV11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "RBOP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RBRD11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "RBRF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "RBRI11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBRL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "RBRM11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBRP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RBRR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBRS11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBRX11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBRY11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RBTS11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RBVA11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "RBVO11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RCFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "RCRB11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RDES11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "RDPD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RECD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RECM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "RECR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RECT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RECX11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "REIT11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RELG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "RENV11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "RFOF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "RINV11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RMAI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "RNDP11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RNGO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "ROOF11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RPRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RRCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RSPD11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "RURA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "RVBI11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "RZAG11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "RZAK11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RZAT11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "RZDM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "RZEO11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "RZLC11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "RZTR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "RZZR11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "SADI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "SAIC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "SAPI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "SARE11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "SCPF11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "SDIL11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "SDIP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "SEED11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SEQR11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "SHOP11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "SHPH11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "SIGR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "SJAU11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "SMRE11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "SNAG11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "SNCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "SNCR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SNEL11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "SNFF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "SNFZ11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SNLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "SNME11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SOFF11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "SOLR11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "SPDE11": {
+        "segmento_original": "Residencial",
+        "tipo": "Tijolo"
+    },
+    "SPMO11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SPTW11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "SPXS11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "SRVD11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "STRX11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "TBOF11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TELM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "TEPP11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TGAR11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "THRA11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TJKB11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TMPS11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "TOPP11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "TORD11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "TOUR11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "TRBL11": {
+        "segmento_original": "Logística",
+        "tipo": "Tijolo"
+    },
+    "TRNT11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TRXB11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "TRXF11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "TRXL11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "TRXY11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "TSER11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TSNC11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "TVRI11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "UBSR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "URHF11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "URPR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VCJR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VCRA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "VCRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VCRR11": {
+        "segmento_original": "Imóveis Residenciais",
+        "tipo": "Tijolo"
+    },
+    "VERE11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "VGHF11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "VGIA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "VGII11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "VGIP11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VGIR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VGRI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VHFA11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "VIFI11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "VILG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "VINO11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "VISC11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "VIUR11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "VJFD11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "VLOL11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "VOTS11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VPSI11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "VRTA11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VRTM11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "VSEC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VSHO11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "VSLH11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VTLT11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "VTPL11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VVCR11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "VVMR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "VVPR11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "VVRI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "VXXV11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "WHGR11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "WPLZ11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "WSEC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "WTSP11": {
+        "segmento_original": "Misto",
+        "tipo": "Híbrido"
+    },
+    "XPCA11": {
+        "segmento_original": "Fiagro",
+        "tipo": "Fiagro"
+    },
+    "XPCI11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "XPCM11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "XPHT11": {
+        "segmento_original": "Hotéis",
+        "tipo": "Tijolo"
+    },
+    "XPIN11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "XPLG11": {
+        "segmento_original": "Imóveis Industriais e Logísticos",
+        "tipo": "Tijolo"
+    },
+    "XPML11": {
+        "segmento_original": "Shoppings",
+        "tipo": "Tijolo"
+    },
+    "XPPR11": {
+        "segmento_original": "Outros",
+        "tipo": "Outros"
+    },
+    "XPSF11": {
+        "segmento_original": "Fundo de Fundos",
+        "tipo": "Híbrido"
+    },
+    "XTED11": {
+        "segmento_original": "Lajes Corporativas",
+        "tipo": "Tijolo"
+    },
+    "YCHY11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "YUFI11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    },
+    "ZAGH11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "ZAVC11": {
+        "segmento_original": "Papéis",
+        "tipo": "Papel"
+    },
+    "ZAVI11": {
+        "segmento_original": "Híbrido",
+        "tipo": "Híbrido"
+    },
+    "ZIFI11": {
+        "segmento_original": "Fundo de Desenvolvimento",
+        "tipo": "Híbrido"
+    }
+}
