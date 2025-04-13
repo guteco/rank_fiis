@@ -166,14 +166,55 @@ if atualizar:
         else: st.warning("Nenhum FII encontrado.", icon="🚫")
 else: st.info("⬅️ Configure filtros e clique '🔄 Atualizar Ranking'.", icon="💡"); show_help_footer_disclaimer = True
 
+# (Todo o código ANTES do expander permanece igual)
+
 # --- Seção de Ajuda Expansível, Disclaimer e Footer ---
 if show_help_footer_disclaimer:
-    st.divider()
+    st.divider() # Linha divisória
+
+    # --- Seção de Ajuda ---
     with st.expander("ℹ️ Sobre este App / Ajuda"):
         st.markdown("""
-            **Fonte dos Dados:**\n*   Os dados são coletados do site [Fundamentus](https://www.fundamentus.com.br/).\n*   A coleta pode levar algum tempo.\n*   Dados sujeitos à disponibilidade e formato do Fundamentus.\n\n**Lógica do Ranking (Filtragem Inicial):**\n*   Busca FIIs com bom **custo/benefício** inicial (P/VP baixo, DY alto).\n*   ⚠️ **Importante:** É apenas um **filtro inicial numérico**. **Leia os relatórios gerenciais** para entender qualidade, gestão e riscos antes de investir.\n\n**Principais Indicadores:**\n*   **DY:** Rendimento 12 meses.\n*   **P/VP:** Preço / Valor Patrimonial.\n*   **Liquidez:** Volume médio diário.\n*   **Vacância:** Área não alugada / renda não realizada.\n\n**Classificação por Segmento/Tipo:**\n*   Usa dados externos (`fii_types.json`).\n*   Pode conter erros ou estar desatualizada.\n*   Encontrou erro? Informe: `contato@nerdpobre.com`\n\n**Como Usar:**\n1.  Ajuste os filtros na barra lateral.\n2.  Clique em "Atualizar Ranking".\n3.  Navegue pelos resultados e use os links.\n4.  Baixe o Excel para análise offline (contém ranks ocultos).
-            **Limitações:**\n*   Ferramenta de estudo, **não** recomendação.\n*   Depende da fonte dos dados.\n*   Scraping pode falhar se o site mudar.
-        """, unsafe_allow_html=True) # unsafe_allow_html para <br> se voltar a usar
+            **Fonte dos Dados:**
+            *   Os dados são coletados automaticamente do site [Fundamentus](https://www.fundamentus.com.br/) através de web scraping.
+            *   A coleta de detalhes individuais (link do relatório, oscilações) pode levar algum tempo.
+            *   Os dados podem não ser em tempo real e estão sujeitos à disponibilidade e formato do site Fundamentus.
 
-    st.warning(DISCLAIMER_TEXT, icon="⚠️") # Disclaimer
+            **Entendendo a Lógica de Classificação (Ranking Original):**
+            *   O objetivo inicial do ranking (cujos valores finais foram ocultos da tabela principal para simplificar a visualização) era servir como um **ponto de partida quantitativo** na busca por FIIs com um potencial **bom custo/benefício**.
+            *   Para isso, ele combinava dois indicadores importantes:
+                *   **P/VP (Preço / Valor Patrimonial):** Indica quanto o mercado está pagando por cada real de patrimônio do fundo. Um P/VP **abaixo de 1** *sugere* que o fundo pode estar sendo negociado com um desconto em relação ao valor contábil de seus ativos ("custo" potencialmente menor). Fundos com P/VP mais baixo recebiam uma melhor classificação neste critério.
+                *   **DY (Dividend Yield):** Mostra o retorno percentual distribuído aos cotistas nos últimos 12 meses, com base na cotação atual. Um DY **mais alto** indica um maior retorno recente em forma de dividendos ("benefício" recente maior). Fundos com DY mais alto recebiam uma melhor classificação neste critério.
+            *   O 'Rank Final' original (oculto) era a soma das posições individuais nesses dois rankings (P/VP e DY). Um valor menor nesse Rank Final indicava, **teoricamente**, uma combinação mais favorável desses dois fatores naquele momento.
+            *   ⚠️ **Análise Fundamental é Indispensável:** É crucial entender que este ranking numérico é apenas um **filtro inicial e simplificado**. Ele não considera a qualidade dos imóveis/créditos, a competência da gestão, a saúde financeira do fundo, a sustentabilidade dos rendimentos ou os riscos específicos de cada ativo. Por isso, a **leitura atenta dos relatórios gerenciais e a análise individualizada de cada FII são etapas indispensáveis** antes de tomar qualquer decisão de investimento. Use esta ferramenta para gerar ideias, mas aprofunde sua pesquisa!
+
+            **Principais Indicadores (Tooltips nos cabeçalhos para mais detalhes):**
+            *   **DY (Dividend Yield):** Rendimento distribuído nos últimos 12 meses em relação à cotação.
+            *   **P/VP (Preço / Valor Patrimonial):** Compara o preço de mercado da cota com seu valor patrimonial. Valores abaixo de 1 podem indicar desconto.
+            *   **Liquidez:** Volume médio negociado por dia. Valores mais altos indicam maior facilidade de comprar/vender cotas.
+            *   **Vacância:** Percentual de área não alugada (física) ou potencial de renda não realizado (financeira). Menor é geralmente melhor.
+
+            **Classificação por Segmento/Tipo:**
+            *   A classificação por 'Segmento' e 'Tipo' foi feita com base em dados externos (arquivo `fii_types.json`) para complementar a informação do Fundamentus.
+            *   Como essa classificação é em parte manual e sujeita a interpretações ou mudanças no mercado, alguns FIIs podem ter ficado com a classificação incorreta ou desatualizada.
+            *   Caso identifique alguma classificação que acredite estar errada, por favor, entre em contato pelo e-mail: `contato@nerdpobre.com` informando o FII e a sugestão de classificação correta para análise e possível correção.
+
+            **Como Usar:**
+            1.  Ajuste os filtros na barra lateral esquerda (P/VP, DY, Liquidez).
+            2.  Clique no botão "Atualizar Ranking".
+            3.  Aguarde enquanto os dados são buscados e processados.
+            4.  Navegue pelos resultados na aba "Todos" ou nas abas por segmento.
+            5.  Use os links na tabela para acessar detalhes no Fundamentus ou baixar relatórios.
+            6.  Clique em "Baixar Tabela (Excel)" para obter os dados (incluindo ranks ocultos) para análise offline.
+
+            **Limitações:**
+            *   Esta é uma ferramenta de estudo e **não** uma recomendação financeira.
+            *   A qualidade dos dados depende da fonte (Fundamentus).
+            *   O web scraping pode falhar se o site de origem mudar sua estrutura.
+        """)
+    # --- Fim da Seção de Ajuda ---
+
+    st.warning(DISCLAIMER_TEXT, icon="⚠️") # Disclaimer como warning
     st.caption(FOOTER_TEXT, unsafe_allow_html=True) # Footer
+
+# (Restante do código, se houver, permanece igual)
