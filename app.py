@@ -232,9 +232,44 @@ else: st.info("⬅️ Configure filtros e clique '🔄 Atualizar Ranking'.", ico
 
 # --- Seção de Ajuda Expansível, Disclaimer e Footer ---
 # (Mantida como na versão anterior)
+# --- Seção de Ajuda Expansível, Disclaimer e Footer ---
 if show_help_footer_disclaimer:
-    st.divider();
+    st.divider()
     with st.expander("ℹ️ Sobre este App / Ajuda"):
-        st.markdown("""**Fonte dos Dados:**\n*   Dados coletados do [Fundamentus](https://www.fundamentus.com.br/).\n*   Coleta pode levar tempo. Sujeito à disponibilidade/formato do site.\n\n**Lógica do Ranking (Filtragem Inicial):**\n*   Busca FIIs com bom **custo/benefício** inicial (P/VP baixo, DY alto).\n*   ⚠️ **Importante:** Filtro **inicial e numérico**. **Leia os relatórios gerenciais** para entender qualidade, gestão e riscos antes de investir.\n\n**Principais Indicadores:**\n*   **DY:** Rendimento 12 meses.\n*   **P/VP:** Preço / Valor Patrimonial.\n*   **Liquidez:** Volume médio diário.\n*   **Vacância:** Área não alugada / renda não realizada.\n\n**Classificação por Segmento/Tipo:**\n*   Usa dados externos (`fii_types.json`).\n*   Pode conter erros. Informe: `contato@nerdpobre.com`\n\n**Como Usar:**\n1.  Ajuste filtros.\n2.  Clique "Atualizar Ranking".\n3.  Navegue e use links.\n4.  Baixe Excel (com ranks ocultos).\n\n**Limitações:**\n*   Estudo, **não** recomendação.\n*   Depende da fonte.\n*   Scraping pode falhar.
-        """, unsafe_allow_html=True)
-    st.warning(DISCLAIMER_TEXT, icon="⚠️"); st.caption(FOOTER_TEXT, unsafe_allow_html=True)
+        st.markdown("""
+            **Fonte dos Dados:**
+            *   Dados coletados do site [Fundamentus](https://www.fundamentus.com.br/). A coleta pode levar um tempo.
+            *   A atualização e precisão dependem da fonte. Não são dados em tempo real.
+
+            **Objetivo da Ferramenta e Indicadores Chave:**
+            *   Este aplicativo visa facilitar a **identificação inicial** de Fundos Imobiliários (FIIs) que se encaixam em certos critérios quantitativos populares entre investidores, focando em um aparente **custo/benefício**.
+            *   Os principais filtros utilizados são:
+                *   **P/VP (Preço / Valor Patrimonial):** Compara o preço de mercado da cota com o valor patrimonial por cota informado pelo fundo. Um P/VP **abaixo de 1.0** *pode sugerir* que o mercado está negociando o FII abaixo do seu valor contábil, indicando um possível "desconto" (custo relativo menor). Filtramos por uma faixa de P/VP que você define.
+                *   **DY (Dividend Yield):** Mede o percentual de rendimentos distribuídos nos últimos 12 meses em relação ao preço atual da cota. Um DY **mais alto** representa um maior retorno recente via dividendos (benefício recente maior). Filtramos por uma faixa de DY que você define.
+                *   **Liquidez:** Volume médio de negociação diária. Filtramos por um valor mínimo para buscar garantir que o FII tenha negociações suficientes para facilitar a compra e venda de cotas.
+            *   Ao aplicar esses filtros, a ferramenta apresenta uma lista de FIIs que atendem, *numericamente*, aos seus critérios.
+            *   ⚠️ **ESSENCIAL: Vá Além dos Números!** Os indicadores são importantes, mas são apenas uma fotografia do momento e não contam toda a história. Um P/VP baixo pode indicar problemas no fundo, e um DY alto pode não ser sustentável. **É fundamental que você faça sua própria diligência:**
+                *   **Leia os Relatórios Gerenciais:** Entenda a estratégia, os ativos (imóveis ou papéis), a qualidade dos inquilinos/devedores, a situação da vacância e os planos futuros da gestão.
+                *   **Analise a Gestão:** Pesquise sobre a experiência e o histórico da equipe gestora.
+                *   **Considere os Riscos:** Avalie os riscos específicos do segmento, dos ativos e do próprio mercado.
+            *   Use esta ferramenta como um **ponto de partida** para sua pesquisa, não como uma recomendação final. A decisão de investir é pessoal e exige análise aprofundada.
+
+            **Classificação por Segmento/Tipo:**
+            *   A classificação ("Tijolo", "Papel", "Híbrido", etc.) busca categorizar os FIIs com base em dados externos para facilitar a análise.
+            *   Essa classificação pode conter erros ou estar desatualizada. Se encontrar algo incorreto, agradecemos o contato: `contato@nerdpobre.com`
+
+            **Como Usar:**
+            1.  Ajuste os filtros (P/VP, DY, Liquidez) na barra lateral.
+            2.  Clique "Atualizar Ranking".
+            3.  Navegue pelos resultados nas abas.
+            4.  Use os links para Fundamentus e Relatórios.
+            5.  Baixe o Excel para análise offline.
+
+            **Limitações:**
+            *   Ferramenta de estudo, **não** recomendação.
+            *   Depende da fonte Fundamentus.
+            *   Scraping pode falhar.
+        """, unsafe_allow_html=True) # unsafe_allow_html para <br> no footer
+
+    st.warning(DISCLAIMER_TEXT, icon="⚠️") # Disclaimer como warning
+    st.caption(FOOTER_TEXT, unsafe_allow_html=True) # Footer
