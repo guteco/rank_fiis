@@ -46,7 +46,8 @@ except Exception as e_jinja:
 
 # --- Importar de rank_fiis ---
 try:
-    from rank_fiis import ( fetch_summary_data, process_data, URL_FII_LIST, FII_TYPES_JSON_FILE, carregar_tipos_do_json, SCRIPT_VERSION, FII_SEGMENT_DATA )
+    # <--- MODIFICADO: Atualiza a versão esperada
+    from rank_fiis import ( fetch_summary_data, process_data, URL_FII_LIST, FII_TYPES_JSON_FILE, carregar_tipos_do_json, SCRIPT_VERSION as RANK_FIIS_VERSION, FII_SEGMENT_DATA )
     RANK_FIIS_IMPORTED = True
     # Carrega os tipos na inicialização para uso posterior
     carregar_tipos_do_json(FII_TYPES_JSON_FILE)
@@ -59,7 +60,7 @@ except ImportError as e:
 
 # --- Constantes de Texto ---
 DISCLAIMER_TEXT = """**AVISO IMPORTANTE:**\nEste script foi gerado somente para fins de estudo e análise pessoal.\nAs informações apresentadas **NÃO** constituem recomendação de compra ou venda de ativos financeiros.\nEsta é apenas uma ferramenta para auxiliar na sua própria análise e tomada de decisão.\n*Este script não pode ser vendido ou alterado sem autorização prévia dos autores.*\nQualquer dúvida ou sugestão, entre em contato."""
-FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instagram.com/guteco) e pela IA do Google.<br>Este trabalho foi carinhosamente pago com a promessa de excelentes pizzas! 🍕 - Versão App: {SCRIPT_VERSION} (rank_fiis)"""
+FOOTER_TEXT = f"""Script feito por Augusto Severo - [@guteco](https://www.instagram.com/guteco) e pela IA do Google.<br>Este trabalho foi carinhosamente pago com a promessa de excelentes pizzas! 🍕 - Versão App: {RANK_FIIS_VERSION} (rank_fiis)""" # <--- MODIFICADO: Usa a versão importada
 # --- Fim Constantes ---
 
 # --- Título e Subtítulo ---
@@ -79,12 +80,16 @@ def format_brl(value, decimals=0):
         if LOCALE_CONFIGURED: num_str_locale = f"{float(value):n}"; # Tenta usar locale
         else: raise locale.Error # Força fallback se locale não foi configurado
         if 'e' not in num_str_locale.lower(): # Verifica se locale não usou notação científica
-             if decimals == 0 and ',' in num_str_locale: return num_str_locale.split(',')[0] # Remove decimais se for 0
-             elif decimals > 0 and ',' not in num_str_locale: return num_str_locale + ',00' # Adiciona ,00 se faltar
-             # Aqui pode precisar de ajuste fino se locale retornar mais de 2 decimais por padrão
-             # Uma alternativa mais segura seria formatar com locale e depois garantir os decimais:
-             # formatted = locale.format_string(f"%.{decimals}f", float(value), grouping=True)
-             # return formatted
+             if decimals == 0:
+                 if ',' in num_str_locale: return num_str_locale.split(',')[0] # Remove decimais se for 0
+                 else: return num_str_locale # Já é inteiro
+             elif decimals > 0:
+                 if ',' not in num_str_locale: return num_str_locale + ',00' # Adiciona ,00 se faltar
+                 else: # Garante 2 decimais se houver vírgula
+                     parts = num_str_locale.split(',')
+                     if len(parts[1]) < decimals: parts[1] = parts[1].ljust(decimals, '0')
+                     elif len(parts[1]) > decimals: parts[1] = parts[1][:decimals]
+                     return parts[0] + ',' + parts[1]
              return num_str_locale # Assume que locale formatou corretamente
         raise locale.Error # Força fallback se locale usou 'e'
     except (ValueError, TypeError, locale.Error): # Fallback manual
@@ -191,11 +196,22 @@ if atualizar:
             # Preparar DataFrame para exibição (df_display) - Copia já ordenado
             df_display = df_original_num.copy()
 
-            # Adicionar colunas Tipo e Segmento (se não vieram de rank_fiis ou json)
+            # Adicionar colunas Tipo e Segmento (Verifica se já existem, senão adiciona defaults)
             if 'Tipo' not in df_display.columns:
-                if rank_fiis.FII_SEGMENT_DATA: df_display['Tipo'] = df_display['Papel'].apply(lambda x: rank_fiis.FII_SEGMENT_DATA.get(str(x), {}).get('tipo', 'Indefinido'))
-                else: df_display['Tipo'] = 'Indefinido'
-            if 'Segmento' not in df_display.columns: df_display['Segmento'] = "N/A"
+                 # Tenta pegar do JSON carregado em rank_fiis se possível
+                 if FII_SEGMENT_DATA:
+                     df_display['Tipo'] = df_display['Papel'].apply(lambda x: FII_SEGMENT_DATA.get(str(x), {}).get('tipo', 'Indefinido'))
+                 else:
+                     df_display['Tipo'] = 'Indefinido'
+            if 'Segmento' not in df_display.columns:
+                # Tenta pegar do JSON carregado em rank_fiis se possível
+                if FII_SEGMENT_DATA:
+                    df_display['Segmento'] = df_display['Papel'].apply(lambda x: FII_SEGMENT_DATA.get(str(x), {}).get('segmento_original', 'Não Classificado'))
+                else:
+                    df_display['Segmento'] = 'Não Classificado'
+
+            # GARANTE que colunas existem antes da agregação
+            if 'Segmento' not in df_display.columns: df_display['Segmento'] = 'Não Classificado'
 
             # AGREGAÇÃO DE SEGMENTOS (Aplica em ambos DFs para consistência)
             segmento_industrial = "Imóveis Industriais e Logísticos"; segmento_logistica = "Logística"; segmentos_a_unir = [segmento_industrial, segmento_logistica]
@@ -204,16 +220,18 @@ if atualizar:
                 df_display['Segmento'] = df_display['Segmento'].replace(replace_map)
                 df_original_num['Segmento'] = df_original_num['Segmento'].replace(replace_map)
 
+
             # --- PREPARAÇÃO DE DADOS PARA O TEMPLATE JINJA2 (FORMATADO) ---
             data_for_template = []
             # Define as colunas que o template HTML espera receber
-            cols_for_render = ['Papel', 'URL Detalhes', 'Segmento', 'Tipo', 'Cotação', 'Dividend Yield', 'P/VP', 'Liquidez', 'FFO Yield', 'Valor de Mercado', 'Qtd de imóveis', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses', 'Data Último Relatório', 'Link Download Relatório']
+            # <--- MODIFICADO: Inclui 'Link Documentos FNET'
+            cols_for_render = ['Papel', 'URL Detalhes', 'Segmento', 'Tipo', 'Cotação', 'Dividend Yield', 'P/VP', 'Liquidez', 'FFO Yield', 'Valor de Mercado', 'Qtd de imóveis', 'Vacância Média', 'Osc. Dia', 'Osc. Mês', 'Osc. 12 Meses', 'Data Último Relatório', 'Link Download Relatório', 'Link Documentos FNET']
             # Garante que só pegamos colunas que realmente existem
             cols_present = [col for col in cols_for_render if col in df_display.columns]
             df_subset = df_display[cols_present] # Usa o DF já ordenado
 
             # Itera sobre as linhas para formatar e criar a lista de dicionários
-            for _, row in df_subset.iterrows():
+            for idx, row in df_subset.iterrows(): # Alterado para iterrows() para ter acesso fácil ao row
                 fii_data = {} # Inicia dicionário
                 for col in cols_present: fii_data[col] = row[col] # Copia dados presentes
 
@@ -233,15 +251,17 @@ if atualizar:
                 fii_data['Tipo'] = fii_data.get('Tipo', 'N/A')         # Garante fallback
                 fii_data['Data Último Relatório'] = fii_data.get('Data Último Relatório', 'N/A') # Garante fallback
                 fii_data['Link Download Relatório'] = fii_data.get('Link Download Relatório') # Pega o link (pode ser None)
+                fii_data['Link_FNET'] = fii_data.get('Link Documentos FNET') # <--- NOVO: Pega o link FNET (pode ser None)
 
                 data_for_template.append(fii_data) # Adiciona à lista
             # --- Fim Preparação Jinja2 ---
 
 
             # --- Exibição da Tabela HTML com st.components.v1.html ---
-            segmentos_brutos = sorted(df_display['Segmento'].unique());
-            segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros']);
-            if 'Outros' in segmentos_brutos: segmentos_ordenados.append('Outros')
+            segmentos_brutos = sorted(df_display['Segmento'].dropna().unique()) if 'Segmento' in df_display.columns else []
+            segmentos_ordenados = sorted([s for s in segmentos_brutos if s != 'Outros' and s != 'Não Classificado']);
+            if 'Não Classificado' in segmentos_brutos: segmentos_ordenados.append('Não Classificado') # Move para o fim se existir
+            if 'Outros' in segmentos_brutos: segmentos_ordenados.append('Outros') # Move para o fim se existir
             # Altura estimada para o componente HTML (ajuste se necessário)
             table_height = min(max(len(data_for_template) * 38 + 60, 250), 700)
 
@@ -259,12 +279,12 @@ if atualizar:
                         components.html(html_table, height=table_height, scrolling=True)
                     for i, seg in enumerate(segmentos_ordenados): # Abas por Segmento
                         with tabs[i+1]:
-                            data_seg = [fii for fii in data_for_template if fii['Segmento'] == seg] # Filtra a lista
+                            data_seg = [fii for fii in data_for_template if fii.get('Segmento') == seg] # Filtra a lista (usando .get)
                             html_table_seg = template.render(fiis=data_seg) # Renderiza dados filtrados
                             seg_table_height = min(max(len(data_seg) * 38 + 60, 200), 700) # Altura dinâmica
                             components.html(html_table_seg, height=seg_table_height, scrolling=True)
             else:
-                # Exibe tabela única se não houver segmentos
+                # Exibe tabela única se não houver segmentos (ou só 'Não Classificado')
                 st.write("---"); st.subheader("Resultados")
                 try: template = jinja_env.get_template('fii_template.html')
                 except Exception as e_template: st.error(f"Erro ao carregar 'fii_template.html': {e_template}"); template = None
@@ -302,7 +322,10 @@ if atualizar:
 
             # --- Download Excel (Inclui score e ranks) ---
             st.write("---"); output = io.BytesIO();
-            df_excel = df_original_num.drop(columns=['URL Detalhes'], errors='ignore') # Remove URL
+            # <--- MODIFICADO: Inclui Link Documentos FNET e remove URL Detalhes
+            cols_to_drop_excel = ['URL Detalhes']
+            df_excel = df_original_num.drop(columns=[col for col in cols_to_drop_excel if col in df_original_num.columns], errors='ignore')
+            # Renomeia colunas de rank e score
             df_excel.rename(columns={ 'Rank_PVP': 'Rank P/VP (Menor Melhor)', 'Rank_DY': 'Rank DY (Maior Melhor)', 'Rank_Liquidez': 'Rank Liquidez (Maior Melhor)', 'Rank_Vacancia': 'Rank Vacancia (Menor Melhor)', 'Score_Ponderado': 'Score Personalizado (Menor Melhor)' }, inplace=True)
             try:
                 with pd.ExcelWriter(output, engine='openpyxl') as writer: df_excel.to_excel(writer, index=False, sheet_name='Ranking FIIs')
@@ -320,5 +343,47 @@ else: # Tela inicial antes de clicar em atualizar
 if show_help_footer_disclaimer:
     st.divider()
     with st.expander("ℹ️ Sobre este App / Ajuda"):
-        st.markdown("""**Fonte dos Dados:**\n*   Dados coletados do [Fundamentus]...\n\n**Score Personalizado e Filtros:**\n*   Use os **filtros**...\n*   Use os **pesos**...\n*   Tabela ordenada pelo **Score (menor = melhor)**...\n*   ⚠️ **ESSENCIAL:** Score é ferramenta **quantitativa**. **Leia os relatórios**...\n\n**Principais Indicadores (Tooltips na tabela HTML):**\n*   **DY:** ...\n*   **P/VP:** ...\n*   **Liquidez:** ...\n*   **Vacância:** ...\n\n**Classificação por Segmento/Tipo:**\n*   Usa dados externos...\n*   Pode conter erros. Informe: `contato@nerdpobre.com`\n\n**Como Usar:**\n1.  Ajuste filtros e pesos.\n2.  Clique "Atualizar Ranking e Score".\n3.  Navegue...\n4.  Use links...\n5.  Baixe Excel...\n\n**Limitações:**\n*   Estudo, **não** recomendação...\n        """, unsafe_allow_html=True) # Texto resumido
+         st.markdown("""
+**Fonte dos Dados:**
+*   Dados principais (cotação, P/VP, DY, liquidez, etc.) e link para último relatório são coletados do site [Fundamentus](https://www.fundamentus.com.br/).
+*   Classificação de **Segmento** e **Tipo** (Tijolo, Papel, Híbrido, etc.) utiliza um arquivo JSON externo (`fii_types.json`) como base, podendo ser complementada ou sobreposta pelos dados do Fundamentus se o JSON não definir.
+*   Link **Docs FNET** direciona para a página oficial de documentos do fundo na B3/FNET, extraído da página de detalhes do Fundamentus.
+
+**Score Personalizado e Filtros:**
+*   Use os **filtros** na barra lateral para definir os critérios mínimos e máximos (P/VP, DY, Liquidez) que um FII deve atender para aparecer na lista.
+*   Use os **pesos** na barra lateral para definir a importância de cada indicador no cálculo do **Score Personalizado**. Um peso maior significa que o indicador contribui mais para o score.
+*   A tabela é ordenada pelo **Score Personalizado (menor = melhor)**. O score é calculado com base no ranking de cada FII em cada critério ponderado pelo peso que você definiu.
+    *   *P/VP Baixo:* Melhora o score (menor ranking = melhor).
+    *   *DY Alto:* Melhora o score (menor ranking = melhor).
+    *   *Liquidez Alta:* Melhora o score (menor ranking = melhor).
+    *   *Vacância Baixa:* Melhora o score (menor ranking = melhor).
+*   ⚠️ **ESSENCIAL:** O score é uma ferramenta **quantitativa** inicial. **Sempre leia os relatórios gerenciais** (links na tabela) e faça sua própria análise qualitativa antes de tomar qualquer decisão de investimento.
+
+**Principais Indicadores (Tooltips na tabela HTML):**
+*   **DY (Dividend Yield):** Rendimento percentual distribuído nos últimos 12 meses em relação à cotação atual.
+*   **P/VP (Preço / Valor Patrimonial):** Relação entre o preço da cota no mercado e o valor patrimonial por cota do fundo. Valores < 1 podem indicar "desconto", > 1 podem indicar "ágio".
+*   **Liquidez:** Média do volume financeiro negociado diariamente. Indica a facilidade de comprar/vender cotas.
+*   **Vacância:** Percentual de área não alugada (física) ou potencial de receita não realizado (financeira), dependendo do FII. Menor geralmente é melhor (para FIIs de Tijolo).
+*   **FFO Yield (Funds From Operations Yield):** Mede o lucro operacional gerado pelos imóveis em relação ao valor de mercado do FII.
+*   **Oscilações:** Variação percentual da cotação no dia, mês ou últimos 12 meses.
+
+**Classificação por Segmento/Tipo:**
+*   Utiliza um arquivo JSON (`fii_types.json`) para uma classificação mais detalhada e padronizada. Se um FII não está no JSON, tenta usar o segmento do Fundamentus.
+*   A classificação pode conter imprecisões ou desatualizações. Se encontrar erros, por favor, informe: `contato@nerdpobre.com` para que o JSON possa ser corrigido em futuras versões.
+
+**Como Usar:**
+1.  Ajuste os **Filtros Principais** e **Pesos do Score** na barra lateral esquerda.
+2.  Clique no botão **"🔄 Atualizar Ranking e Score"**.
+3.  Navegue pelos resultados na tabela. Use as abas para ver por segmento.
+4.  Use os links na coluna **Papel** para ir à página de detalhes do Fundamentus.
+5.  Use os links na coluna **Relatório** para baixar o último relatório gerencial disponível no Fundamentus.
+6.  Use os links na coluna **Docs FNET** para ver todos os documentos oficiais do fundo na B3.
+7.  Baixe a tabela completa com todos os dados e ranks calculados clicando no botão **"📥 Baixar Tabela Completa (Excel)"**.
+
+**Limitações:**
+*   Este é um script de estudo e análise pessoal. **NÃO é uma recomendação de compra ou venda.**
+*   Os dados dependem da disponibilidade e precisão do site Fundamentus e do arquivo JSON.
+*   A performance da busca de detalhes pode variar.
+*   Faça sempre sua própria diligência (Due Diligence).
+        """, unsafe_allow_html=True) # Texto atualizado
     st.warning(DISCLAIMER_TEXT, icon="⚠️"); st.caption(FOOTER_TEXT, unsafe_allow_html=True)

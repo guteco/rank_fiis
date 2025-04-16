@@ -5,7 +5,7 @@ import numpy as np
 import logging
 import warnings
 import time
-import re
+import re # <--- NOVO (Importado para usar regex na busca do link)
 import html
 from bs4 import BeautifulSoup
 import json
@@ -21,7 +21,7 @@ HTML_OUTPUT_FILENAME = "ranking_fiis_com_abas.html"
 FII_TYPES_JSON_FILE = "fii_types.json"
 MIN_PVP = 0.7; MAX_PVP = 1.05; MIN_LIQUIDEZ = 400000; MIN_DY = 0.08; MAX_DY = 0.135
 REQUEST_DELAY = 0.3
-SCRIPT_VERSION = "0.92" # Indica base no seu código + ranks
+SCRIPT_VERSION = "0.93" # <--- MODIFICADO (Versão incrementada)
 
 # Configuração logging e warnings
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -62,7 +62,7 @@ def format_value_br_string(value, format_type="float", decimals=2):
         return f"{value:_.{decimals}f}".replace('_', '#').replace('.', ',').replace('#', '.')
     except (ValueError, TypeError): return str(value)
 
-def get_headers(): return { 'User-Agent': 'Mozilla/5.0 ...' } # Header padrão
+def get_headers(): return { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' } # Header padrão
 
 # --- Funções Principais ---
 
@@ -83,15 +83,18 @@ def fetch_summary_data(url):
     except requests.exceptions.RequestException as e: logging.error(f"Erro Requisição (Resumo): {e}"); return None
     except Exception as e: logging.error(f"Erro inesperado fetch/parse (Resumo): {e}"); return None
 
-# fetch_fii_details mantida idêntica à sua versão
+# --- fetch_fii_details MODIFICADO para buscar o Link FNET ---
 def fetch_fii_details(fii_url):
     logging.debug(f"Buscando detalhes de: {fii_url}")
-    report_date = "N/A"; download_link = None; osc_dia, osc_mes, osc_12m = np.nan, np.nan, np.nan
+    report_date = "N/A"; download_link = None; fnet_docs_url = None # <--- NOVO: inicializa link FNET
+    osc_dia, osc_mes, osc_12m = np.nan, np.nan, np.nan
     try:
         time.sleep(REQUEST_DELAY)
         response = requests.get(fii_url, headers=get_headers(), timeout=30, verify=True)
         response.raise_for_status(); response.encoding = response.apparent_encoding
         soup = BeautifulSoup(response.text, 'html5lib')
+
+        # 1. Busca Data e Link do Último Relatório (como antes)
         label_td_report = None; all_labels = soup.find_all('td', class_='label')
         for label in all_labels:
             if 'relatório' in label.get_text(strip=True).lower(): label_td_report = label; break
@@ -111,6 +114,8 @@ def fetch_fii_details(fii_url):
                 cell_text_report = value_td_report.get_text(separator=' ', strip=True)
                 date_match = re.search(r'(\d{2}/\d{2}/\d{4})', cell_text_report)
                 if date_match: report_date = date_match.group(1)
+
+        # 2. Busca Oscilações (como antes)
         osc_labels_map = {'Dia': 'osc_dia', 'Mês': 'osc_mes', '12 meses': 'osc_12m'}; temp_osc = {'osc_dia': np.nan, 'osc_mes': np.nan, 'osc_12m': np.nan}
         for label in all_labels:
             label_text = label.get_text(strip=True)
@@ -121,12 +126,24 @@ def fetch_fii_details(fii_url):
                     if value_span: numeric_value = clean_numeric_value(value_span.get_text(strip=True));
                     if not pd.isna(numeric_value): temp_osc[osc_key] = numeric_value / 100.0
         osc_dia, osc_mes, osc_12m = temp_osc['osc_dia'], temp_osc['osc_mes'], temp_osc['osc_12m']
+
+        # 3. Busca Link "Pesquisar Documentos" para FNET <--- NOVO
+        link_pesquisar = soup.find('a', string=re.compile(r'^\s*Pesquisar Documentos\s*$', re.IGNORECASE))
+        if link_pesquisar:
+            fnet_docs_url = link_pesquisar.get('href')
+            if fnet_docs_url and not fnet_docs_url.startswith('http'):
+                # Adiciona o domínio base se for um link relativo (embora deva ser absoluto)
+                fnet_docs_url = BASE_URL_FUNDAMENTUS.rstrip('/') + '/' + fnet_docs_url.lstrip('/')
+            logging.debug(f"Link FNET encontrado: {fnet_docs_url}")
+        else:
+            logging.debug("Link 'Pesquisar Documentos' não encontrado.")
+
     except Exception as e: logging.warning(f"Erro parse/extração detalhes {fii_url}: {e}")
-    logging.debug(f"Retornando: Data='{report_date}', Link='{download_link}', Osc={osc_dia},{osc_mes},{osc_12m}")
-    return report_date, download_link, osc_dia, osc_mes, osc_12m
+    logging.debug(f"Retornando: Data='{report_date}', LinkDL='{download_link}', FNET='{fnet_docs_url}', Osc={osc_dia},{osc_mes},{osc_12m}")
+    # Retorna o novo link FNET
+    return report_date, download_link, osc_dia, osc_mes, osc_12m, fnet_docs_url # <--- MODIFICADO
 
-
-# --- process_data (Baseado na sua versão, com adição de ranks individuais) ---
+# --- process_data MODIFICADO para incluir o Link FNET ---
 def process_data(df):
     if df is None or df.empty: logging.error("DataFrame de entrada vazio."); return None
     logging.info("Iniciando limpeza e conversão...")
@@ -144,20 +161,32 @@ def process_data(df):
 
     # Tratamento Segmento (com JSON - lógica da sua versão)
     if 'Segmento' not in df_processed.columns: df_processed['Segmento'] = 'Não Classificado'
+    # Adiciona coluna Tipo baseado no JSON
     if FII_SEGMENT_DATA:
-        logging.info("Atualizando 'Segmento' com JSON...")
-        original_segment_col = df_processed['Segmento'].copy()
-        def get_detailed_segment(ticker): # Função interna como na sua versão
-             data = FII_SEGMENT_DATA.get(str(ticker)); return data['segmento_original'] if isinstance(data, dict) and 'segmento_original' in data and data['segmento_original'] else None
-        df_processed['Segmento_JSON'] = df_processed['Papel'].map(get_detailed_segment)
-        df_processed['Segmento_JSON'].fillna(original_segment_col, inplace=True)
-        df_processed['Segmento'] = df_processed['Segmento_JSON']; df_processed.drop(columns=['Segmento_JSON'], inplace=True)
+        logging.info("Adicionando/Atualizando 'Tipo' e 'Segmento' com JSON...")
+        def get_fii_info(ticker, key):
+            data = FII_SEGMENT_DATA.get(str(ticker))
+            return data.get(key, None) if isinstance(data, dict) else None
+
+        # Atualiza Segmento
+        original_segment_col = df_processed['Segmento'].copy() if 'Segmento' in df_processed.columns else None
+        df_processed['Segmento_JSON'] = df_processed['Papel'].apply(lambda x: get_fii_info(x, 'segmento_original'))
+        if original_segment_col is not None:
+            df_processed['Segmento_JSON'].fillna(original_segment_col, inplace=True)
+        df_processed['Segmento'] = df_processed['Segmento_JSON']
+        df_processed.drop(columns=['Segmento_JSON'], inplace=True)
+
+        # Adiciona/Atualiza Tipo
+        df_processed['Tipo'] = df_processed['Papel'].apply(lambda x: get_fii_info(x, 'tipo'))
+        df_processed['Tipo'].fillna('Indefinido', inplace=True) # Garante que a coluna Tipo exista
+
         df_processed['Segmento'] = df_processed['Segmento'].fillna('Não Classificado').replace('', 'Não Classificado')
-        logging.info("Coluna 'Segmento' atualizada.")
+        logging.info("Colunas 'Segmento' e 'Tipo' atualizadas/adicionadas.")
     else:
-        logging.warning("JSON não carregado. Usando segmentos originais.")
+        logging.warning("JSON não carregado. Usando segmentos originais e Tipo 'Indefinido'.")
         if 'Segmento' in df_processed.columns: df_processed['Segmento'] = df_processed['Segmento'].fillna('Não Classificado').replace('', 'Não Classificado')
         else: df_processed['Segmento'] = 'Não Classificado'
+        df_processed['Tipo'] = 'Indefinido' # Cria a coluna Tipo se não veio do JSON
 
     # Filtragem
     required_cols = ['Papel', 'P/VP', 'Liquidez', 'Dividend Yield'];
@@ -171,14 +200,16 @@ def process_data(df):
 
     # --- Busca e Adição de Detalhes (Método da sua versão funcional) ---
     logging.info("Buscando detalhes...")
-    details_data = {'Data Último Relatório': [], 'Link Download Relatório': [], 'Osc. Dia': [], 'Osc. Mês': [], 'Osc. 12 Meses': [], 'URL Detalhes': []}
+    # <--- MODIFICADO: Adiciona 'Link Documentos FNET' ao dicionário
+    details_data = {'Data Último Relatório': [], 'Link Download Relatório': [], 'Osc. Dia': [], 'Osc. Mês': [], 'Osc. 12 Meses': [], 'URL Detalhes': [], 'Link Documentos FNET': []}
     original_indices = filtered_df.index.tolist() # Guarda índice original
     papel_list = filtered_df['Papel'].tolist()
     for i, idx in enumerate(original_indices):
         papel = papel_list[i]
         fii_url = BASE_URL_FUNDAMENTUS + 'detalhes.php?papel=' + papel
         if (i + 1) % 10 == 0 or (i + 1) == len(original_indices): logging.info(f"Detalhes FII {i+1}/{len(original_indices)}: {papel}...")
-        date, link, o_d, o_m, o_12 = fetch_fii_details(fii_url)
+        # <--- MODIFICADO: Recebe o link FNET retornado
+        date, link, o_d, o_m, o_12, fnet_link = fetch_fii_details(fii_url)
         # Adiciona aos dicionários
         details_data['Data Último Relatório'].append(date)
         details_data['Link Download Relatório'].append(link)
@@ -186,6 +217,7 @@ def process_data(df):
         details_data['Osc. Mês'].append(o_m)
         details_data['Osc. 12 Meses'].append(o_12)
         details_data['URL Detalhes'].append(fii_url)
+        details_data['Link Documentos FNET'].append(fnet_link) # <--- NOVO: Adiciona o link FNET
 
     # Adiciona as colunas ao DataFrame usando as listas e o índice original
     logging.info("Adicionando detalhes ao DataFrame...")
@@ -212,9 +244,10 @@ def process_data(df):
 
     # --- Reorganizar Colunas Finais (SEM ordenar por score aqui) ---
     logging.info("Reorganizando colunas...")
-    first_col=['Papel']; middle_cols_order=['Segmento','Tipo','Cotação','FFO Yield','Dividend Yield','P/VP','Valor de Mercado','Liquidez','Qtd de imóveis','Vacância Média','Osc. Dia','Osc. Mês','Osc. 12 Meses']; detail_cols=['Data Último Relatório','Link Download Relatório']; rank_cols=['Rank_PVP','Rank_DY','Rank_Liquidez','Rank_Vacancia']; last_cols=['URL Detalhes']
-    middle_cols=[col for col in middle_cols_order if col in df_calc.columns]; existing_rank_cols=[col for col in rank_cols if col in df_calc.columns]
-    final_ordered_cols = first_col + middle_cols + detail_cols + existing_rank_cols + last_cols
+    # <--- MODIFICADO: Adiciona 'Link Documentos FNET' à ordem das colunas
+    first_col=['Papel']; middle_cols_order=['Segmento','Tipo','Cotação','FFO Yield','Dividend Yield','P/VP','Valor de Mercado','Liquidez','Qtd de imóveis','Vacância Média','Osc. Dia','Osc. Mês','Osc. 12 Meses']; detail_cols=['Data Último Relatório','Link Download Relatório', 'Link Documentos FNET']; rank_cols=['Rank_PVP','Rank_DY','Rank_Liquidez','Rank_Vacancia']; last_cols=['URL Detalhes']
+    middle_cols=[col for col in middle_cols_order if col in df_calc.columns]; detail_cols_present=[col for col in detail_cols if col in df_calc.columns]; existing_rank_cols=[col for col in rank_cols if col in df_calc.columns]
+    final_ordered_cols = first_col + middle_cols + detail_cols_present + existing_rank_cols + last_cols
     final_ordered_cols = [col for col in final_ordered_cols if col in df_calc.columns] # Garante só existentes
     final_df_output = df_calc[final_ordered_cols]
 
@@ -250,6 +283,10 @@ if __name__ == "__main__":
                 # Adiciona score simples e ordena para teste standalone
                 processed_df['Score_Exemplo'] = (10 * processed_df['Rank_DY'].fillna(len(processed_df)+1) + 7 * processed_df['Rank_PVP'].fillna(len(processed_df)+1)).astype('Int64')
                 processed_df.sort_values(by='Score_Exemplo', ascending=True, inplace=True, na_position='last')
+                # Mostra as primeiras linhas com a nova coluna no console
+                print("\n--- Exemplo de Dados Processados (com Link FNET) ---")
+                print(processed_df[['Papel', 'Link Documentos FNET', 'Score_Exemplo']].head())
+                print("----------------------------------------------------\n")
                 save_to_excel(processed_df, EXCEL_OUTPUT_FILENAME) # Salva Excel com ranks e score
             else: logging.warning("Nenhum FII atendeu aos critérios padrão.")
         else: logging.error("Erro no processamento dos dados.")

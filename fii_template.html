@@ -8,10 +8,16 @@
         .fii-table thead th { background-color: #333; color: white; padding: 10px 6px; border: 1px solid #555; text-align: center; vertical-align: middle; font-weight: bold; }
         .fii-table tbody td { border: 1px solid #444; padding: 8px 6px; text-align: center; vertical-align: middle; }
         .fii-table tbody td:first-child { text-align: left !important; font-weight: bold; }
-        .fii-table tbody td:first-child a { color: #87CEFA; text-decoration: none; }
-        .fii-table tbody td:first-child a:hover { text-decoration: underline; }
-        .fii-table tbody td.col-relatorio a { color: #90EE90; text-decoration: none; }
+        /* Estilo para links genéricos (Papel, FNET) */
+        .fii-table tbody td a { color: #87CEFA; text-decoration: none; }
+        .fii-table tbody td a:hover { text-decoration: underline; }
+        /* Estilo específico para link do Relatório */
+        .fii-table tbody td.col-relatorio a { color: #90EE90; } /* Verde claro para relatório */
         .fii-table tbody td.col-relatorio a:hover { text-decoration: underline; }
+        /* Estilo específico para link Docs FNET (opcional, pode usar o genérico) */
+        /* .fii-table tbody td.col-fnet a { color: #FFD700; } /* Ex: Dourado para FNET */
+        /* .fii-table tbody td.col-fnet a:hover { text-decoration: underline; } */
+
         .fii-table tbody tr:nth-child(even) { background-color: rgba(42, 42, 42, 0.5); }
     </style>
 </head>
@@ -19,31 +25,56 @@
     <table class="fii-table">
         <thead>
             <tr>
-                <th title="Ticker do Fundo Imobiliário">Papel</th> <th title="Segmento de atuação principal do FII">Segmento</th>
-                <th title="Classificação do FII (Tijolo, Papel, Híbrido, etc.)">Tipo</th> <th title="Último preço da cota registrado">Cotação</th>
-                <th title="Dividend Yield (rendimento) acumulado nos últimos 12 meses">DY</th> <th title="Preço da Cota / Valor Patrimonial por Cota">P/VP</th>
-                <th title="Volume médio diário negociado (R$)">Liquidez</th> <th title="Funds From Operations Yield">FFO Yield</th>
-                <th title="Valor total do FII baseado na cotação atual">Valor Mercado</th> <th title="Número de imóveis no portfólio do FII">Qtd Imóveis</th>
-                <th title="Taxa média de vacância física/financeira reportada">Vacância</th> <th title="Oscilação percentual da cota no dia">Osc. Dia</th>
-                <th title="Oscilação percentual da cota no mês atual">Osc. Mês</th> <th title="Oscilação percentual da cota nos últimos 12 meses">Osc. 12M</th>
-                <th title="Data do último relatório gerencial encontrado">Últ. Relatório</th> <th title="Link para baixar o último relatório gerencial disponível">Relatório</th>
+                <th title="Ticker do Fundo Imobiliário">Papel</th>
+                <th title="Segmento de atuação principal do FII">Segmento</th>
+                <th title="Classificação do FII (Tijolo, Papel, Híbrido, etc.)">Tipo</th>
+                <th title="Último preço da cota registrado">Cotação</th>
+                <th title="Dividend Yield (rendimento) acumulado nos últimos 12 meses">DY</th>
+                <th title="Preço da Cota / Valor Patrimonial por Cota">P/VP</th>
+                <th title="Volume médio diário negociado (R$)">Liquidez</th>
+                <th title="Funds From Operations Yield">FFO Yield</th>
+                <th title="Valor total do FII baseado na cotação atual">Valor Mercado</th>
+                <th title="Número de imóveis no portfólio do FII">Qtd Imóveis</th>
+                <th title="Taxa média de vacância física/financeira reportada">Vacância</th>
+                <th title="Oscilação percentual da cota no dia">Osc. Dia</th>
+                <th title="Oscilação percentual da cota no mês atual">Osc. Mês</th>
+                <th title="Oscilação percentual da cota nos últimos 12 meses">Osc. 12M</th>
+                <th title="Data do último relatório gerencial encontrado">Últ. Relatório</th>
+                <th title="Link para baixar o último relatório gerencial disponível">Relatório</th>
+                <th title="Acessar página de documentos oficiais na B3 (FNET)">Docs FNET</th> {# <--- NOVO Cabeçalho #}
             </tr>
         </thead>
         <tbody>
             {% for fii in fiis %} {# Loop sobre a lista de FIIs #}
             <tr>
-                <td> {# Papel e Link #}
+                <td> {# Papel e Link Detalhes Fundamentus #}
                     {% if fii.get('URL Detalhes') %}<a href="{{ fii['URL Detalhes'] | escape }}" target="_blank">{{ fii.Papel | escape }}</a>{% else %}{{ fii.Papel | escape }}{% endif %}
                 </td>
-                <td>{{ fii.Segmento | escape }}</td> <td>{{ fii.Tipo | escape }}</td>
-                <td>{{ fii.Cotação_fmt }}</td> <td>{{ fii.DY_fmt }}</td> <td>{{ fii.PVP_fmt }}</td>
-                <td>{{ fii.Liquidez_fmt }}</td> <td>{{ fii.FFOYield_fmt }}</td> <td>{{ fii.ValorMercado_fmt }}</td>
-                <td>{{ fii.QtdImoveis_fmt }}</td> <td>{{ fii.Vacancia_fmt }}</td> <td>{{ fii.OscDia_fmt }}</td>
-                <td>{{ fii.OscMes_fmt }}</td> <td>{{ fii.Osc12M_fmt }}</td>
+                <td>{{ fii.Segmento | escape }}</td>
+                <td>{{ fii.Tipo | escape }}</td>
+                <td>{{ fii.Cotação_fmt }}</td>
+                <td>{{ fii.DY_fmt }}</td>
+                <td>{{ fii.PVP_fmt }}</td>
+                <td>{{ fii.Liquidez_fmt }}</td>
+                <td>{{ fii.FFOYield_fmt }}</td>
+                <td>{{ fii.ValorMercado_fmt }}</td>
+                <td>{{ fii.QtdImoveis_fmt }}</td>
+                <td>{{ fii.Vacancia_fmt }}</td>
+                <td>{{ fii.OscDia_fmt }}</td>
+                <td>{{ fii.OscMes_fmt }}</td>
+                <td>{{ fii.Osc12M_fmt }}</td>
                 <td>{{ fii.get('Data Último Relatório', 'N/A') | escape }}</td> {# Acesso seguro à data #}
                 <td class="col-relatorio"> {# Link Relatório #}
                     {% set report_link = fii.get('Link Download Relatório') %}
                     {% if report_link %}<a href="{{ report_link | escape }}" target="_blank">Baixar</a>{% else %}N/D{% endif %}
+                </td>
+                <td class="col-fnet"> {# <--- NOVO Bloco para Link FNET #}
+                    {% set fnet_link = fii.get('Link_FNET') %} {# Pega o link passado pelo app.py #}
+                    {% if fnet_link %}
+                        <a href="{{ fnet_link | escape }}" target="_blank">Ver Docs</a>
+                    {% else %}
+                        N/D
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
